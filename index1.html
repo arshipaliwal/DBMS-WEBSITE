@@ -1,0 +1,5710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DBMS Learning Hub</title>
+<link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+<h2>DBMS Topics</h2>
+
+<a href="#ddl">DDL</a>
+<a href="#dml">DML</a>
+<a href="#dql">DQL</a>
+<a href="#where">Where & Order By</a>
+<a href="#like">LIKE Operator</a>
+<a href="#group">Group Functions</a>
+<a href="#subqueries">Subqueries</a>
+<a href="#scalar">Scalar Functions</a>
+<a href="#joins">Joins</a>
+<a href="#set">Set Operators</a>
+<a href="#views">Views</a>
+<a href="#tcl">TCL & DCL</a>
+<a href="#plsql">PL/SQL Basics</a>
+<a href="#decision">PL/SQL Decisions</a>
+<a href="#loops">PL/SQL Loops</a>
+<a href="#types">%TYPE & %ROWTYPE</a>
+<a href="#cursors">Cursors</a>
+<a href="#procedures">Stored Procedures</a>
+<a href="#packages">Packages</a>
+<a href="#exceptions">Exception Handling</a>
+
+</div>
+
+<div class="content">
+
+<section id="ddl">
+<h2>DDL</h2>
+<pre>
+--------------------------------------------------
+-- 1. CREATE TABLES
+--------------------------------------------------
+
+CREATE TABLE STUDENT (
+  SID NUMBER,
+  SNAME VARCHAR2(30),
+  AGE NUMBER,
+  COURSE VARCHAR2(20)
+);
+
+CREATE TABLE EMPLOYEE (
+  EID NUMBER,
+  ENAME VARCHAR2(40),
+  SALARY NUMBER(8,2),
+  DEPTNO NUMBER
+);
+
+CREATE TABLE DEPARTMENT (
+  DEPTNO NUMBER,
+  DNAME VARCHAR2(30),
+  LOCATION VARCHAR2(30)
+);
+
+CREATE TABLE BOOK (
+  BOOK_ID NUMBER,
+  TITLE VARCHAR2(50),
+  AUTHOR VARCHAR2(40),
+  PRICE NUMBER
+);
+
+CREATE TABLE COURSE (
+  CID NUMBER,
+  CNAME VARCHAR2(40),
+  DURATION NUMBER
+);
+
+CREATE TABLE PROJECT (
+  PID NUMBER,
+  PNAME VARCHAR2(50),
+  START_DATE DATE,
+  END_DATE DATE
+);
+
+CREATE TABLE CUSTOMER (
+  CID NUMBER,
+  CNAME VARCHAR2(40),
+  CITY VARCHAR2(30),
+  PHONE NUMBER
+);
+
+CREATE TABLE SALES (
+  SALE_ID NUMBER,
+  PRODUCT_NAME VARCHAR2(50),
+  QUANTITY NUMBER,
+  PRICE NUMBER
+);
+
+--------------------------------------------------
+-- 9-10 COPY TABLES
+--------------------------------------------------
+
+CREATE TABLE EMP_COPY AS
+SELECT * FROM EMP WHERE 1=0;
+
+CREATE TABLE EMP_BACKUP AS
+SELECT * FROM EMP;
+
+--------------------------------------------------
+-- 11-20 ALTER TABLE
+--------------------------------------------------
+
+ALTER TABLE STUDENT ADD EMAIL VARCHAR2(50);
+ALTER TABLE EMPLOYEE ADD PHONE NUMBER;
+ALTER TABLE STUDENT MODIFY SNAME VARCHAR2(50);
+ALTER TABLE EMPLOYEE MODIFY SALARY NUMBER(10,2);
+ALTER TABLE CUSTOMER ADD PINCODE NUMBER;
+ALTER TABLE STUDENT RENAME COLUMN SNAME TO STUDENT_NAME;
+ALTER TABLE STUDENT DROP COLUMN AGE;
+ALTER TABLE EMPLOYEE MODIFY SALARY NOT NULL;
+ALTER TABLE BOOK MODIFY TITLE VARCHAR2(100);
+ALTER TABLE EMPLOYEE ADD MANAGER_ID NUMBER;
+
+--------------------------------------------------
+-- 21-25 DROP TABLE
+--------------------------------------------------
+
+DROP TABLE STUDENT;
+DROP TABLE CUSTOMER;
+DROP TABLE PROJECT;
+DROP TABLE SALES;
+DROP TABLE COURSE;
+
+--------------------------------------------------
+-- 26-30 RENAME TABLE
+--------------------------------------------------
+
+RENAME STUDENT TO STUDENTS;
+RENAME EMPLOYEE TO EMP_MASTER;
+RENAME CUSTOMER TO CLIENT;
+RENAME BOOK TO BOOK_DETAILS;
+RENAME PROJECT TO PROJECT_INFO;
+
+--------------------------------------------------
+-- 31-35 DELETE/TRUNCATE
+--------------------------------------------------
+
+DELETE FROM STUDENT;
+TRUNCATE TABLE EMPLOYEE;
+TRUNCATE TABLE CUSTOMER;
+TRUNCATE TABLE SALES;
+TRUNCATE TABLE PROJECT;
+
+--------------------------------------------------
+-- 36-41 TRAINING
+--------------------------------------------------
+
+CREATE TABLE TRAINING (
+  TID NUMBER,
+  TNAME VARCHAR2(40),
+  DURATION NUMBER
+);
+
+ALTER TABLE TRAINING ADD TRAINER_NAME VARCHAR2(40);
+ALTER TABLE TRAINING MODIFY TNAME VARCHAR2(60);
+RENAME TRAINING TO TRAINING_PROGRAM;
+TRUNCATE TABLE TRAINING_PROGRAM;
+DROP TABLE TRAINING_PROGRAM;
+
+--------------------------------------------------
+-- 42 EMP_PROJECT
+--------------------------------------------------
+
+CREATE TABLE EMP_PROJECT (
+  EMP_ID NUMBER,
+  PROJECT_ID NUMBER,
+  START_DATE DATE,
+  END_DATE DATE,
+  ROLE VARCHAR2(30)
+);
+
+ALTER TABLE EMP_PROJECT MODIFY ROLE VARCHAR2(50);
+ALTER TABLE EMP_PROJECT ADD STATUS VARCHAR2(20);
+
+--------------------------------------------------
+-- 43 PRODUCT
+--------------------------------------------------
+
+CREATE TABLE PRODUCT (
+  PID NUMBER,
+  PNAME VARCHAR2(50),
+  PRICE NUMBER,
+  CATEGORY VARCHAR2(30)
+);
+
+ALTER TABLE PRODUCT RENAME COLUMN PNAME TO PRODUCT_NAME;
+ALTER TABLE PRODUCT MODIFY PRICE NUMBER(10,2);
+
+--------------------------------------------------
+-- 44 ORDERS
+--------------------------------------------------
+
+CREATE TABLE ORDERS (
+  ORDER_ID NUMBER,
+  CUSTOMER_ID NUMBER,
+  ORDER_DATE DATE,
+  TOTAL_AMOUNT NUMBER
+);
+
+ALTER TABLE ORDERS ADD STATUS VARCHAR2(20);
+ALTER TABLE ORDERS DROP COLUMN TOTAL_AMOUNT;
+ALTER TABLE ORDERS ADD TOTAL_AMOUNT NUMBER(10,2);
+
+--------------------------------------------------
+-- 45 EMP_TEMP
+--------------------------------------------------
+
+CREATE TABLE EMP_TEMP AS
+SELECT * FROM EMP WHERE SAL > 2000;
+
+RENAME EMP_TEMP TO EMP_HIGH_SALARY;
+TRUNCATE TABLE EMP_HIGH_SALARY;
+DROP TABLE EMP_HIGH_SALARY;
+
+--------------------------------------------------
+-- 46 STUDENT_RECORD
+--------------------------------------------------
+
+CREATE TABLE STUDENT_RECORD (
+  SID NUMBER,
+  SNAME VARCHAR2(40),
+  COURSE VARCHAR2(30),
+  MARKS NUMBER
+);
+
+ALTER TABLE STUDENT_RECORD ADD GRADE CHAR(1);
+ALTER TABLE STUDENT_RECORD MODIFY MARKS NUMBER(5,2);
+ALTER TABLE STUDENT_RECORD RENAME COLUMN COURSE TO COURSE_NAME;
+
+--------------------------------------------------
+-- 47 EMP_ARCHIVE
+--------------------------------------------------
+
+CREATE TABLE EMP_ARCHIVE AS
+SELECT * FROM EMP WHERE 1=0;
+
+ALTER TABLE EMP_ARCHIVE ADD ARCHIVE_DATE DATE;
+RENAME EMP_ARCHIVE TO EMP_HISTORY;
+
+--------------------------------------------------
+-- 48 DEPT_BACKUP
+--------------------------------------------------
+
+CREATE TABLE DEPT_BACKUP AS
+SELECT * FROM DEPT;
+
+ALTER TABLE DEPT_BACKUP DROP COLUMN LOC;
+ALTER TABLE DEPT_BACKUP ADD LOCATION VARCHAR2(40);
+
+--------------------------------------------------
+-- 49 SALES_DATA
+--------------------------------------------------
+
+CREATE TABLE SALES_DATA (
+  SALE_ID NUMBER,
+  PRODUCT_ID NUMBER,
+  SALE_DATE DATE,
+  AMOUNT NUMBER
+);
+
+ALTER TABLE SALES_DATA ADD REGION VARCHAR2(30);
+ALTER TABLE SALES_DATA MODIFY AMOUNT NUMBER(12,2);
+RENAME SALES_DATA TO REGIONAL_SALES_DATA;
+
+--------------------------------------------------
+-- 50 LOG_TABLE
+--------------------------------------------------
+
+CREATE TABLE LOG_TABLE (
+  LOG_ID NUMBER,
+  USER_NAME VARCHAR2(30),
+  ACTION VARCHAR2(50),
+  LOG_DATE DATE
+);
+
+TRUNCATE TABLE LOG_TABLE;
+RENAME LOG_TABLE TO SYSTEM_LOG;
+DROP TABLE SYSTEM_LOG;
+</pre>
+</section>
+
+<section id="dml">
+<h2>DML</h2>
+<pre>
+--------------------------------------------------
+-- 1. INSERT INTO STUDENT
+--------------------------------------------------
+INSERT INTO STUDENT (SID, SNAME, AGE, COURSE)
+VALUES (101, 'RAHUL', 20, 'MCA');
+
+--------------------------------------------------
+-- 2. INSERT INTO EMPLOYEE
+--------------------------------------------------
+INSERT INTO EMPLOYEE (EID, ENAME, SALARY, DEPTNO)
+VALUES (201, 'ANITA', 45000, 10);
+
+--------------------------------------------------
+-- 3. INSERT INTO DEPT
+--------------------------------------------------
+INSERT INTO DEPT (DEPTNO, DNAME, LOC)
+VALUES (50, 'TRAINING', 'DELHI');
+
+--------------------------------------------------
+-- 4. INSERT INTO BOOK (selected columns)
+--------------------------------------------------
+INSERT INTO BOOK (BOOK_ID, TITLE, PRICE)
+VALUES (1, 'DBMS Basics', 500);
+
+--------------------------------------------------
+-- 5. INSERT MULTIPLE ROWS INTO COURSE
+--------------------------------------------------
+INSERT ALL
+  INTO COURSE VALUES (1, 'MCA', 3)
+  INTO COURSE VALUES (2, 'BCA', 3)
+  INTO COURSE VALUES (3, 'MBA', 2)
+SELECT * FROM DUAL;
+
+--------------------------------------------------
+-- 6. INSERT INTO EMP_COPY FROM EMP
+--------------------------------------------------
+INSERT INTO EMP_COPY
+SELECT * FROM EMP;
+
+--------------------------------------------------
+-- 7. INSERT SAL > 3000 INTO EMP_HIGH_SAL
+--------------------------------------------------
+INSERT INTO EMP_HIGH_SAL
+SELECT * FROM EMP WHERE SAL > 3000;
+
+--------------------------------------------------
+-- 8. INSERT EMP HIRED AFTER 1981
+--------------------------------------------------
+INSERT INTO EMP_NEW_HIRE
+SELECT * FROM EMP WHERE HIREDATE > '31-DEC-1981';
+
+--------------------------------------------------
+-- 9. INSERT INTO DEPT_BACKUP
+--------------------------------------------------
+INSERT INTO DEPT_BACKUP (DEPTNO, DNAME)
+SELECT DEPTNO, DNAME FROM DEPT;
+
+--------------------------------------------------
+-- 10. INSERT INTO EMP_SALARY_RECORD
+--------------------------------------------------
+INSERT INTO EMP_SALARY_RECORD (ENAME, SAL)
+SELECT ENAME, SAL FROM EMP;
+
+--------------------------------------------------
+-- 11. UPDATE SMITH SALARY
+--------------------------------------------------
+UPDATE EMP SET SAL = 2000
+WHERE ENAME = 'SMITH';
+
+--------------------------------------------------
+-- 12. INCREASE SALARY BY 10%
+--------------------------------------------------
+UPDATE EMP SET SAL = SAL * 1.10;
+
+--------------------------------------------------
+-- 13. UPDATE DEPTNO OF ALLEN
+--------------------------------------------------
+UPDATE EMP SET DEPTNO = 20
+WHERE ENAME = 'ALLEN';
+
+--------------------------------------------------
+-- 14. UPDATE COMMISSION OF SALESMAN
+--------------------------------------------------
+UPDATE EMP SET COMM = 500
+WHERE JOB = 'SALESMAN';
+
+--------------------------------------------------
+-- 15. UPDATE JOB OF MILLER
+--------------------------------------------------
+UPDATE EMP SET JOB = 'MANAGER'
+WHERE ENAME = 'MILLER';
+
+--------------------------------------------------
+-- 16. INCREASE SALARY IN DEPT 10
+--------------------------------------------------
+UPDATE EMP SET SAL = SAL * 1.20
+WHERE DEPTNO = 10;
+
+--------------------------------------------------
+-- 17. UPDATE CLERK SALARY
+--------------------------------------------------
+UPDATE EMP SET SAL = 1500
+WHERE JOB = 'CLERK';
+
+--------------------------------------------------
+-- 18. UPDATE LOCATION
+--------------------------------------------------
+UPDATE DEPT SET LOC = 'MUMBAI'
+WHERE DEPTNO = 30;
+
+--------------------------------------------------
+-- 19. UPDATE NULL COMMISSION
+--------------------------------------------------
+UPDATE EMP SET COMM = 100
+WHERE COMM IS NULL;
+
+--------------------------------------------------
+-- 20. UPDATE SAL < AVG
+--------------------------------------------------
+UPDATE EMP
+SET SAL = SAL + 500
+WHERE SAL < (SELECT AVG(SAL) FROM EMP);
+
+--------------------------------------------------
+-- 21. DELETE SMITH
+--------------------------------------------------
+DELETE FROM EMP WHERE ENAME = 'SMITH';
+
+--------------------------------------------------
+-- 22. DELETE DEPT 30 EMPLOYEES
+--------------------------------------------------
+DELETE FROM EMP WHERE DEPTNO = 30;
+
+--------------------------------------------------
+-- 23. DELETE SAL < 1000
+--------------------------------------------------
+DELETE FROM EMP WHERE SAL < 1000;
+
+--------------------------------------------------
+-- 24. DELETE HIRED BEFORE 1981
+--------------------------------------------------
+DELETE FROM EMP WHERE HIREDATE < '01-JAN-1981';
+
+--------------------------------------------------
+-- 25. DELETE NO COMMISSION
+--------------------------------------------------
+DELETE FROM EMP WHERE COMM IS NULL;
+
+--------------------------------------------------
+-- 26. DELETE DEPARTMENTS IN CHICAGO
+--------------------------------------------------
+DELETE FROM DEPT WHERE LOC = 'CHICAGO';
+
+--------------------------------------------------
+-- 27. DELETE CLERKS
+--------------------------------------------------
+DELETE FROM EMP WHERE JOB = 'CLERK';
+
+--------------------------------------------------
+-- 28. DELETE MIN SALARY
+--------------------------------------------------
+DELETE FROM EMP
+WHERE SAL = (SELECT MIN(SAL) FROM EMP);
+
+--------------------------------------------------
+-- 29. DELETE EMP IN NEW YORK DEPT
+--------------------------------------------------
+DELETE FROM EMP
+WHERE DEPTNO IN (
+  SELECT DEPTNO FROM DEPT WHERE LOC = 'NEW YORK'
+);
+
+--------------------------------------------------
+-- 30. DELETE NULL MANAGER
+--------------------------------------------------
+DELETE FROM EMP WHERE MGR IS NULL;
+</pre>
+</section>
+
+<section id="dql">
+<h2>DQL</h2>
+<pre>
+--------------------------------------------------
+-- 1. Display all columns of EMP
+--------------------------------------------------
+SELECT * FROM EMP;
+
+--------------------------------------------------
+-- 2. Display EMPNO, ENAME, SAL
+--------------------------------------------------
+SELECT EMPNO, ENAME, SAL FROM EMP;
+
+--------------------------------------------------
+-- 3. Display unique job titles
+--------------------------------------------------
+SELECT DISTINCT JOB FROM EMP;
+
+--------------------------------------------------
+-- 4. Employee name with department number
+--------------------------------------------------
+SELECT ENAME, DEPTNO FROM EMP;
+
+--------------------------------------------------
+-- 5. Display all DEPT details
+--------------------------------------------------
+SELECT * FROM DEPT;
+
+--------------------------------------------------
+-- 6. Distinct department numbers from EMP
+--------------------------------------------------
+SELECT DISTINCT DEPTNO FROM EMP;
+
+--------------------------------------------------
+-- 7. Employee name with annual salary
+--------------------------------------------------
+SELECT ENAME, SAL*12 AS ANNUAL_SALARY
+FROM EMP;
+
+--------------------------------------------------
+-- 8. Employee name, salary, commission
+--------------------------------------------------
+SELECT ENAME, SAL, COMM FROM EMP;
+
+--------------------------------------------------
+-- 9. Job and salary
+--------------------------------------------------
+SELECT JOB, SAL FROM EMP;
+
+--------------------------------------------------
+-- 10. Employees with manager number
+--------------------------------------------------
+SELECT ENAME, MGR FROM EMP;
+</pre>
+</section>
+
+<section id="where">
+<h2>WHERE, ORDER BY, Alias</h2>
+<pre>
+--------------------------------------------------
+-- 1
+SELECT * FROM EMP WHERE SAL > 3000;
+
+-- 2
+SELECT * FROM EMP WHERE DEPTNO = 10;
+
+-- 3
+SELECT * FROM EMP WHERE JOB = 'CLERK';
+
+-- 4
+SELECT * FROM EMP 
+WHERE HIREDATE > TO_DATE('01-01-1981','DD-MM-YYYY');
+
+-- 5
+SELECT * FROM EMP WHERE SAL < 1500;
+
+-- 6
+SELECT * FROM EMP 
+WHERE SAL > 2000 AND JOB = 'MANAGER';
+
+-- 7
+SELECT * FROM EMP 
+WHERE DEPTNO IN (10,20);
+
+-- 8
+SELECT * FROM EMP 
+WHERE JOB='SALESMAN' AND SAL > 1500;
+
+-- 9
+SELECT * FROM EMP 
+WHERE JOB IN ('CLERK','ANALYST');
+
+-- 10
+SELECT * FROM EMP 
+WHERE HIREDATE < TO_DATE('01-01-1982','DD-MM-YYYY')
+AND DEPTNO = 30;
+
+-- 11
+SELECT * FROM EMP 
+WHERE DEPTNO IN (10,20,30);
+
+-- 12
+SELECT * FROM EMP 
+WHERE JOB NOT IN ('MANAGER','CLERK');
+
+-- 13
+SELECT * FROM EMP 
+WHERE DEPTNO <> 10;
+
+-- 14
+SELECT * FROM EMP 
+WHERE SAL BETWEEN 1000 AND 3000;
+
+-- 15
+SELECT * FROM EMP
+WHERE HIREDATE BETWEEN 
+TO_DATE('01-01-1981','DD-MM-YYYY')
+AND TO_DATE('31-12-1981','DD-MM-YYYY');
+
+--------------------------------------------------
+-- ORDER BY
+--------------------------------------------------
+
+-- 16
+SELECT * FROM EMP ORDER BY SAL ASC;
+
+-- 17
+SELECT * FROM EMP ORDER BY SAL DESC;
+
+-- 18
+SELECT * FROM EMP ORDER BY HIREDATE;
+
+-- 19
+SELECT * FROM EMP ORDER BY DEPTNO, SAL;
+
+-- 20
+SELECT * FROM EMP ORDER BY JOB ASC, SAL DESC;
+
+-- 21
+SELECT ENAME FROM EMP ORDER BY ENAME;
+
+-- 22
+SELECT * FROM EMP 
+WHERE DEPTNO = 30 ORDER BY SAL;
+
+-- 23
+SELECT * FROM EMP 
+ORDER BY SAL*12;
+
+-- 24
+SELECT * FROM EMP 
+ORDER BY COMM;
+
+-- 25
+SELECT * FROM EMP 
+ORDER BY JOB, ENAME;
+
+--------------------------------------------------
+-- ALIAS
+--------------------------------------------------
+
+-- 26
+SELECT ENAME AS Employee_Name FROM EMP;
+
+-- 27
+SELECT SAL AS Monthly_Salary FROM EMP;
+
+-- 28
+SELECT ENAME AS Name, JOB AS Work FROM EMP;
+
+-- 29
+SELECT DEPTNO AS Dept_No FROM EMP;
+
+-- 30
+SELECT ENAME AS Name, SAL AS Salary FROM EMP;
+
+-- 31
+SELECT COMM AS Incentive FROM EMP;
+
+-- 32
+SELECT ENAME AS Name, JOB AS Job, SAL AS Salary
+FROM EMP ORDER BY JOB;
+
+--------------------------------------------------
+-- COMBINED
+--------------------------------------------------
+
+-- 33
+SELECT * FROM EMP 
+WHERE DEPTNO=30 AND SAL>1500
+ORDER BY SAL;
+
+-- 34
+SELECT * FROM EMP 
+WHERE COMM IS NOT NULL
+ORDER BY COMM;
+
+-- 35
+SELECT * FROM EMP 
+WHERE SAL BETWEEN 1500 AND 3000
+ORDER BY SAL;
+
+-- 36
+SELECT ENAME, DEPTNO 
+FROM EMP ORDER BY DEPTNO, ENAME;
+
+-- 37
+SELECT * FROM EMP 
+WHERE ENAME LIKE 'S%' ORDER BY SAL;
+
+-- 38
+SELECT ENAME AS Name, HIREDATE AS Join_Date
+FROM EMP
+WHERE HIREDATE < TO_DATE('01-01-1982','DD-MM-YYYY')
+ORDER BY HIREDATE;
+
+-- 39
+SELECT ENAME AS Name, SAL AS Pay
+FROM EMP WHERE DEPTNO=10;
+
+-- 40
+SELECT * FROM EMP 
+WHERE COMM IS NULL ORDER BY SAL DESC;
+
+-- 41
+SELECT ENAME, SAL*12 AS Annual_Salary
+FROM EMP ORDER BY Annual_Salary;
+
+--------------------------------------------------
+-- NULL CONDITIONS
+--------------------------------------------------
+
+-- 42
+SELECT * FROM EMP 
+WHERE COMM IS NULL AND JOB='SALESMAN';
+
+-- 43
+SELECT * FROM EMP 
+WHERE MGR IS NULL AND SAL>4000;
+
+-- 44
+SELECT * FROM EMP 
+WHERE COMM IS NULL AND DEPTNO=20;
+
+-- 45
+SELECT * FROM EMP 
+WHERE COMM IS NOT NULL AND DEPTNO=30;
+
+-- 46
+SELECT * FROM EMP 
+WHERE COMM IS NULL OR SAL>3000;
+
+-- 47
+SELECT * FROM EMP 
+WHERE COMM IS NULL AND SAL>2000;
+
+-- 48
+SELECT * FROM EMP 
+WHERE MGR IS NOT NULL;
+
+-- 49
+SELECT * FROM EMP 
+WHERE MGR IS NULL;
+
+-- 50
+SELECT * FROM EMP 
+WHERE COMM IS NOT NULL;
+
+-- 51
+SELECT * FROM EMP 
+WHERE COMM IS NULL;
+
+--------------------------------------------------
+-- MORE ALIAS
+--------------------------------------------------
+
+-- 52
+SELECT JOB AS Job_Title, SAL AS Salary FROM EMP;
+
+-- 53
+SELECT ENAME AS Name, DEPTNO AS Department FROM EMP;
+
+-- 54
+SELECT HIREDATE AS Joining_Date FROM EMP;
+</pre>
+</section>
+
+<section id="like">
+<h2>LIKE Operator</h2>
+<pre>
+--------------------------------------------------
+-- BASIC LIKE
+--------------------------------------------------
+
+-- 1
+SELECT * FROM EMP WHERE ENAME LIKE 'A%';
+
+-- 2
+SELECT * FROM EMP WHERE ENAME LIKE 'S%';
+
+-- 3
+SELECT * FROM EMP WHERE ENAME LIKE '%N';
+
+-- 4
+SELECT * FROM EMP WHERE ENAME LIKE '%R';
+
+-- 5
+SELECT * FROM EMP WHERE ENAME LIKE '%LL%';
+
+-- 6
+SELECT * FROM EMP WHERE ENAME LIKE '%AR%';
+
+-- 7
+SELECT * FROM EMP WHERE JOB LIKE 'M%';
+
+-- 8
+SELECT * FROM EMP WHERE JOB LIKE '%AN';
+
+-- 9
+SELECT * FROM EMP WHERE JOB LIKE '%CL%';
+
+-- 10
+SELECT * FROM DEPT WHERE LOC LIKE 'N%';
+
+--------------------------------------------------
+-- LENGTH / POSITION
+--------------------------------------------------
+
+-- 11 (4 characters)
+SELECT * FROM EMP WHERE ENAME LIKE '____';
+
+-- 12 (5 characters)
+SELECT * FROM EMP WHERE ENAME LIKE '_____';
+
+-- 13 (2nd char A)
+SELECT * FROM EMP WHERE ENAME LIKE '_A%';
+
+-- 14 (3rd char L)
+SELECT * FROM EMP WHERE ENAME LIKE '__L%';
+
+-- 15 (job 6 chars)
+SELECT * FROM EMP WHERE JOB LIKE '______';
+
+--------------------------------------------------
+-- MIXED PATTERNS
+--------------------------------------------------
+
+-- 16
+SELECT * FROM EMP WHERE ENAME LIKE '%N';
+
+-- 17
+SELECT * FROM EMP WHERE JOB LIKE '_%ER';
+
+-- 18
+SELECT * FROM EMP WHERE ENAME LIKE 'A%N';
+
+-- 19 (2 chars before E)
+SELECT * FROM EMP WHERE ENAME LIKE '__E%';
+
+-- 20 (1 char after A)
+SELECT * FROM EMP WHERE ENAME LIKE 'A_';
+
+--------------------------------------------------
+-- COMBINATIONS
+--------------------------------------------------
+
+-- 21
+SELECT * FROM EMP WHERE ENAME LIKE 'A%N';
+
+-- 22
+SELECT * FROM EMP WHERE ENAME LIKE '%E%';
+
+-- 23
+SELECT * FROM EMP WHERE ENAME NOT LIKE '%A%';
+
+-- 24
+SELECT * FROM EMP WHERE JOB LIKE '%MAN%';
+
+-- 25
+SELECT * FROM EMP WHERE JOB NOT LIKE 'C%';
+
+-- 26
+SELECT * FROM EMP WHERE ENAME LIKE '%LL%';
+
+-- 27
+SELECT * FROM EMP WHERE ENAME LIKE 'J%S%';
+
+-- 28
+SELECT * FROM EMP WHERE JOB LIKE 'S%AN';
+
+-- 29 (second last A)
+SELECT * FROM EMP WHERE ENAME LIKE '%A_';
+
+-- 30 (A _ E)
+SELECT * FROM EMP WHERE ENAME LIKE '%A_E%';
+
+--------------------------------------------------
+-- CONDITIONS + LIKE
+--------------------------------------------------
+
+-- 31
+SELECT * FROM EMP 
+WHERE ENAME LIKE 'S%' AND SAL > 2000;
+
+-- 32
+SELECT * FROM EMP 
+WHERE JOB LIKE '%MAN' AND DEPTNO = 20;
+
+-- 33
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%A%' AND COMM IS NULL;
+
+-- 34
+SELECT * FROM EMP 
+WHERE JOB LIKE 'C%' AND SAL < 1500;
+
+-- 35
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%S' 
+AND HIREDATE > TO_DATE('01-01-1981','DD-MM-YYYY');
+
+-- 36
+SELECT * FROM EMP 
+WHERE ENAME LIKE 'M%' AND DEPTNO <> 10;
+
+-- 37
+SELECT * FROM EMP 
+WHERE JOB LIKE '%ER%' AND SAL BETWEEN 2000 AND 3000;
+
+-- 38
+SELECT * FROM EMP 
+WHERE ENAME LIKE 'A%' OR JOB LIKE 'S%';
+
+-- 39
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%I%' AND MGR IS NOT NULL;
+
+-- 40
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%N' AND COMM IS NOT NULL;
+
+--------------------------------------------------
+-- ORDER BY + ALIAS
+--------------------------------------------------
+
+-- 41
+SELECT ENAME AS Name 
+FROM EMP WHERE ENAME LIKE 'S%' 
+ORDER BY Name;
+
+-- 42
+SELECT ENAME, SAL AS Pay 
+FROM EMP WHERE ENAME LIKE '%A%' 
+ORDER BY Pay;
+
+-- 43
+SELECT * FROM EMP 
+WHERE JOB LIKE 'M%' 
+ORDER BY JOB, SAL;
+
+-- 44
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%E' 
+ORDER BY HIREDATE;
+
+-- 45
+SELECT ENAME, SAL*12 AS Annual_Salary
+FROM EMP WHERE ENAME LIKE 'J%';
+
+--------------------------------------------------
+-- MORE PATTERNS
+--------------------------------------------------
+
+-- 46
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%R%' ORDER BY DEPTNO;
+
+-- 47
+SELECT ENAME AS Employee 
+FROM EMP WHERE JOB LIKE '%AN';
+
+-- 48
+SELECT * FROM EMP 
+WHERE ENAME LIKE 'K%' ORDER BY SAL DESC;
+
+-- 49
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%L%' ORDER BY ENAME, SAL;
+
+-- 50
+SELECT * FROM EMP 
+WHERE JOB LIKE 'C%' ORDER BY JOB;
+
+--------------------------------------------------
+-- ADVANCED
+--------------------------------------------------
+
+-- 51 (6 chars ending R)
+SELECT * FROM EMP WHERE ENAME LIKE '_____R';
+
+-- 52 (3rd char A)
+SELECT * FROM EMP WHERE ENAME LIKE '__A%';
+
+-- 53 (2nd last E)
+SELECT * FROM EMP WHERE ENAME LIKE '%E_';
+
+-- 54 (at least 2 chars before A)
+SELECT * FROM EMP WHERE ENAME LIKE '__%A%';
+
+-- 55 (one A)
+SELECT * FROM EMP 
+WHERE JOB LIKE '%A%' AND JOB NOT LIKE '%A%A%';
+
+-- 56 (not starting vowel)
+SELECT * FROM EMP 
+WHERE ENAME NOT LIKE 'A%' 
+AND ENAME NOT LIKE 'E%' 
+AND ENAME NOT LIKE 'I%' 
+AND ENAME NOT LIKE 'O%' 
+AND ENAME NOT LIKE 'U%';
+
+-- 57
+SELECT * FROM EMP 
+WHERE JOB NOT LIKE '%ER%';
+
+-- 58 (start = end)
+SELECT * FROM EMP 
+WHERE SUBSTR(ENAME,1,1)=SUBSTR(ENAME,-1);
+
+-- 59 (contains A and E)
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%A%' AND ENAME LIKE '%E%';
+
+-- 60 (A not first)
+SELECT * FROM EMP 
+WHERE ENAME LIKE '%A%' AND ENAME NOT LIKE 'A%';
+</pre>
+</section>
+
+<section id="group">
+<h2>Group Functions</h2>
+<pre>
+--------------------------------------------------
+-- BASIC AGGREGATES
+--------------------------------------------------
+
+-- 1
+SELECT COUNT(*) FROM EMP;
+
+-- 2
+SELECT SUM(SAL) FROM EMP;
+
+-- 3
+SELECT AVG(SAL) FROM EMP;
+
+-- 4
+SELECT MAX(SAL) FROM EMP;
+
+-- 5
+SELECT MIN(SAL) FROM EMP;
+
+-- 6
+SELECT COUNT(DISTINCT DEPTNO) FROM EMP;
+
+-- 7
+SELECT COUNT(*) FROM EMP WHERE JOB='MANAGER';
+
+-- 8
+SELECT SUM(COMM) FROM EMP;
+
+-- 9
+SELECT AVG(COMM) FROM EMP;
+
+-- 10
+SELECT COUNT(COMM) FROM EMP;
+
+--------------------------------------------------
+-- GROUP BY (DEPARTMENT)
+--------------------------------------------------
+
+-- 11
+SELECT DEPTNO, SUM(SAL) FROM EMP GROUP BY DEPTNO;
+
+-- 12
+SELECT DEPTNO, AVG(SAL) FROM EMP GROUP BY DEPTNO;
+
+-- 13
+SELECT DEPTNO, COUNT(*) FROM EMP GROUP BY DEPTNO;
+
+--------------------------------------------------
+-- GROUP BY (JOB)
+--------------------------------------------------
+
+-- 14
+SELECT JOB, COUNT(*) FROM EMP GROUP BY JOB;
+
+-- 15
+SELECT JOB, SUM(SAL) FROM EMP GROUP BY JOB;
+
+-- 16
+SELECT JOB, MAX(SAL) FROM EMP GROUP BY JOB;
+
+-- 17
+SELECT JOB, MIN(SAL) FROM EMP GROUP BY JOB;
+
+--------------------------------------------------
+-- MORE GROUPING
+--------------------------------------------------
+
+-- 18
+SELECT DEPTNO, MAX(SAL) FROM EMP GROUP BY DEPTNO;
+
+-- 19
+SELECT DEPTNO, MIN(SAL) FROM EMP GROUP BY DEPTNO;
+
+-- 20
+SELECT DEPTNO, AVG(COMM) FROM EMP GROUP BY DEPTNO;
+
+--------------------------------------------------
+-- MULTIPLE GROUPING
+--------------------------------------------------
+
+-- 21
+SELECT DEPTNO, JOB, COUNT(*) 
+FROM EMP GROUP BY DEPTNO, JOB;
+
+-- 22
+SELECT DEPTNO, JOB, SUM(SAL)
+FROM EMP GROUP BY DEPTNO, JOB;
+
+-- 23
+SELECT DEPTNO, JOB, AVG(SAL)
+FROM EMP GROUP BY DEPTNO, JOB;
+
+-- 24
+SELECT JOB, DEPTNO, MAX(SAL)
+FROM EMP GROUP BY JOB, DEPTNO;
+
+-- 25
+SELECT JOB, DEPTNO, MIN(SAL)
+FROM EMP GROUP BY JOB, DEPTNO;
+
+--------------------------------------------------
+-- HAVING CLAUSE
+--------------------------------------------------
+
+-- 26
+SELECT DEPTNO, JOB, SUM(SAL)
+FROM EMP GROUP BY DEPTNO, JOB
+HAVING SUM(SAL) = (
+  SELECT MAX(SUM(SAL)) 
+  FROM EMP GROUP BY DEPTNO, JOB
+);
+
+-- 27
+SELECT DEPTNO, SUM(SAL)
+FROM EMP GROUP BY DEPTNO
+HAVING SUM(SAL) = (
+  SELECT MAX(SUM(SAL)) FROM EMP GROUP BY DEPTNO
+);
+
+-- 28
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING AVG(SAL) = (
+  SELECT MIN(AVG(SAL)) FROM EMP GROUP BY JOB
+);
+
+--------------------------------------------------
+-- ADVANCED
+--------------------------------------------------
+
+-- 29
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING AVG(SAL) > ALL (
+  SELECT AVG(SAL) FROM EMP GROUP BY DEPTNO
+);
+
+-- 30
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING COUNT(*) = (
+  SELECT MAX(COUNT(*)) FROM EMP GROUP BY DEPTNO
+);
+
+-- 31
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING SUM(SAL) > (
+  SELECT SUM(SAL) FROM EMP WHERE JOB='CLERK'
+);
+
+-- 32
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING COUNT(*) IN (
+  SELECT COUNT(*) FROM EMP GROUP BY DEPTNO HAVING COUNT(*) > 1
+);
+
+-- 33
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING MAX(SAL) = (
+  SELECT MAX(SAL) FROM EMP WHERE DEPTNO=20
+);
+
+-- 34
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING SUM(SAL) = (
+  SELECT MIN(SUM(SAL)) FROM EMP GROUP BY DEPTNO
+);
+
+-- 35
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING AVG(SAL) = (
+  SELECT MAX(AVG(SAL)) FROM EMP GROUP BY JOB
+);
+
+-- 36
+SELECT DEPTNO, SUM(SAL)
+FROM EMP GROUP BY DEPTNO
+HAVING AVG(SAL) > (SELECT AVG(SAL) FROM EMP);
+
+--------------------------------------------------
+-- NULL + CONDITIONS
+--------------------------------------------------
+
+-- 37
+SELECT JOB, COUNT(*)
+FROM EMP WHERE COMM IS NULL
+GROUP BY JOB;
+
+-- 38
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING COUNT(COMM) = 0;
+
+-- 39
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING COUNT(*) = COUNT(COMM);
+
+-- 40
+SELECT JOB, AVG(COMM)
+FROM EMP GROUP BY JOB;
+
+-- 41
+SELECT DEPTNO, COUNT(*)
+FROM EMP WHERE MGR IS NULL
+GROUP BY DEPTNO;
+
+-- 42
+SELECT COUNT(*) FROM EMP WHERE COMM IS NULL;
+
+-- 43
+SELECT SUM(COMM) FROM EMP;
+
+-- 44
+SELECT DEPTNO, AVG(COMM)
+FROM EMP GROUP BY DEPTNO;
+
+-- 45
+SELECT JOB, SUM(COMM)
+FROM EMP GROUP BY JOB;
+
+-- 46
+SELECT DEPTNO, COUNT(COMM)
+FROM EMP GROUP BY DEPTNO;
+
+--------------------------------------------------
+-- MORE HAVING
+--------------------------------------------------
+
+-- 47
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING COUNT(DISTINCT MGR) > 1;
+
+-- 48
+SELECT DEPTNO
+FROM EMP WHERE COMM IS NOT NULL
+GROUP BY DEPTNO;
+
+-- 49
+SELECT JOB, AVG(SAL)
+FROM EMP GROUP BY JOB
+HAVING SUM(SAL) > 5000;
+
+-- 50
+SELECT DEPTNO, SUM(SAL)
+FROM EMP GROUP BY DEPTNO
+HAVING COUNT(*) > 4;
+
+-- 51
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING MIN(SAL) < 1000;
+
+-- 52
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING MAX(SAL) > 4000;
+
+-- 53
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING COUNT(*) > 2;
+
+-- 54
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING SUM(SAL) > 10000;
+
+-- 55
+SELECT JOB
+FROM EMP GROUP BY JOB
+HAVING AVG(SAL) > 2500;
+
+-- 56
+SELECT DEPTNO
+FROM EMP GROUP BY DEPTNO
+HAVING COUNT(*) > 3;
+
+--------------------------------------------------
+-- FILTERED GROUPING
+--------------------------------------------------
+
+-- 57
+SELECT DEPTNO, COUNT(*)
+FROM EMP WHERE JOB='SALESMAN'
+GROUP BY DEPTNO;
+
+SELECT JOB, SUM(COMM)
+FROM EMP WHERE COMM IS NOT NULL
+GROUP BY JOB;
+
+-- 58
+SELECT JOB, MAX(SAL)
+FROM EMP WHERE SAL > 1500
+GROUP BY JOB;
+
+-- 59
+SELECT DEPTNO, SUM(SAL)
+FROM EMP WHERE DEPTNO <> 30
+GROUP BY DEPTNO;
+
+-- 60
+SELECT JOB, AVG(SAL)
+FROM EMP WHERE DEPTNO = 20
+GROUP BY JOB;
+
+-- 61
+SELECT DEPTNO, COUNT(*)
+FROM EMP WHERE COMM IS NOT NULL
+GROUP BY DEPTNO;
+
+-- 62
+SELECT JOB, SUM(SAL)
+FROM EMP WHERE JOB IN ('CLERK','MANAGER')
+GROUP BY JOB;
+
+-- 63
+SELECT DEPTNO, AVG(SAL)
+FROM EMP WHERE HIREDATE > TO_DATE('01-01-1981','DD-MM-YYYY')
+GROUP BY DEPTNO;
+
+-- 64
+SELECT JOB, COUNT(*)
+FROM EMP WHERE SAL > 2000
+GROUP BY JOB;
+
+-- 65
+SELECT DEPTNO, SUM(SAL)
+FROM EMP WHERE DEPTNO > 10
+GROUP BY DEPTNO;
+
+--------------------------------------------------
+-- FINAL COMPLEX
+--------------------------------------------------
+
+-- 66
+SELECT DEPTNO, JOB
+FROM EMP GROUP BY DEPTNO, JOB
+HAVING COUNT(*) = (
+  SELECT MAX(COUNT(*)) FROM EMP GROUP BY DEPTNO, JOB
+);
+
+-- 67
+SELECT DEPTNO, JOB, COUNT(*)
+FROM EMP GROUP BY DEPTNO, JOB;
+
+-- 68
+SELECT DEPTNO, JOB, SUM(COMM)
+FROM EMP GROUP BY DEPTNO, JOB;
+
+-- 69
+SELECT DEPTNO, JOB
+FROM EMP GROUP BY DEPTNO, JOB
+HAVING AVG(SAL) = (
+  SELECT MIN(AVG(SAL)) FROM EMP GROUP BY DEPTNO, JOB
+);
+</pre>
+</section>
+
+<section id="subqueries">
+<h2>Subqueries</h2>
+<pre>
+-- 1. Employees whose salary is greater than JONES
+SELECT * 
+FROM EMP
+WHERE SAL > (SELECT SAL FROM EMP WHERE ENAME = 'JONES');
+
+-- 2. Employees earning the same salary as SCOTT
+SELECT * 
+FROM EMP
+WHERE SAL = (SELECT SAL FROM EMP WHERE ENAME = 'SCOTT');
+
+-- 3. Employees hired after ALLEN
+SELECT *
+FROM EMP
+WHERE HIREDATE > (SELECT HIREDATE FROM EMP WHERE ENAME = 'ALLEN');
+
+-- 4. Employees working in the same department as BLAKE
+SELECT *
+FROM EMP
+WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE ENAME = 'BLAKE');
+
+-- 5. Employees having the same job as MILLER
+SELECT *
+FROM EMP
+WHERE JOB = (SELECT JOB FROM EMP WHERE ENAME = 'MILLER');
+
+-- 6. Employees earning less than the average salary
+SELECT *
+FROM EMP
+WHERE SAL < (SELECT AVG(SAL) FROM EMP);
+
+-- 7. Employees earning more than the maximum salary of CLERKs
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT MAX(SAL) FROM EMP WHERE JOB = 'CLERK');
+
+-- 8. Employee(s) with the minimum salary
+SELECT *
+FROM EMP
+WHERE SAL = (SELECT MIN(SAL) FROM EMP);
+
+-- 9. Employee(s) with the maximum salary
+SELECT *
+FROM EMP
+WHERE SAL = (SELECT MAX(SAL) FROM EMP);
+
+-- 10. Employees working in departments located in NEW YORK
+SELECT *
+FROM EMP
+WHERE DEPTNO IN (SELECT DEPTNO FROM DEPT WHERE LOC = 'NEW YORK');
+
+-- 11. Employees whose salary matches any salary in department 30
+SELECT *
+FROM EMP
+WHERE SAL IN (SELECT SAL FROM EMP WHERE DEPTNO = 30);
+
+-- 12. Employees earning more than all CLERKs
+SELECT *
+FROM EMP
+WHERE SAL > ALL (SELECT SAL FROM EMP WHERE JOB = 'CLERK');
+
+-- 13. Employees earning less than any MANAGER
+SELECT *
+FROM EMP
+WHERE SAL < ANY (SELECT SAL FROM EMP WHERE JOB = 'MANAGER');
+
+-- 14. Employees whose job appears in department 20
+SELECT *
+FROM EMP
+WHERE JOB IN (SELECT JOB FROM EMP WHERE DEPTNO = 20);
+
+-- 15. Employees whose department has at least one SALESMAN
+SELECT *
+FROM EMP
+WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE JOB = 'SALESMAN');
+
+-- 16. Employees earning the same salary as any CLERK
+SELECT *
+FROM EMP
+WHERE SAL IN (SELECT SAL FROM EMP WHERE JOB = 'CLERK');
+
+-- 17. Employees not working in departments of SALESMAN
+SELECT *
+FROM EMP
+WHERE DEPTNO NOT IN (SELECT DEPTNO FROM EMP WHERE JOB = 'SALESMAN');
+
+-- 18. Employees earning more than all employees in department 10
+SELECT *
+FROM EMP
+WHERE SAL > ALL (SELECT SAL FROM EMP WHERE DEPTNO = 10);
+
+-- 19. Employees whose department number is among departments with more than 3 employees
+SELECT *
+FROM EMP
+WHERE DEPTNO IN (
+    SELECT DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO
+    HAVING COUNT(*) > 3
+);
+
+-- 20. Employees whose salary is greater than salary of their manager
+SELECT e.*
+FROM EMP e
+JOIN EMP m ON e.MGR = m.EMPNO
+WHERE e.SAL > m.SAL;
+
+-- 21. Jobs where average salary is greater than overall average salary
+SELECT JOB
+FROM EMP
+GROUP BY JOB
+HAVING AVG(SAL) > (SELECT AVG(SAL) FROM EMP);
+
+-- 22. Employees earning more than the department average salary
+SELECT *
+FROM EMP e
+WHERE SAL > (SELECT AVG(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 23. Employees earning the highest salary in each department
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MAX(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 24. Employees earning the lowest salary in each job
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MIN(SAL) FROM EMP WHERE JOB = e.JOB);
+
+-- 25. Departments having total salary greater than department 20
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING SUM(SAL) > (SELECT SUM(SAL) FROM EMP WHERE DEPTNO = 20);
+
+-- 26. Employees whose salary equals the maximum salary of their job
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MAX(SAL) FROM EMP WHERE JOB = e.JOB);
+
+-- 27. Employees earning more than the overall average salary
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT AVG(SAL) FROM EMP);
+
+-- 28. Department(s) having the maximum number of employees
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(*) = (SELECT MAX(cnt) FROM (SELECT COUNT(*) AS cnt FROM EMP GROUP BY DEPTNO) t);
+
+-- 29. Jobs having minimum average salary
+SELECT JOB
+FROM EMP
+GROUP BY JOB
+HAVING AVG(SAL) = (SELECT MIN(avg_sal) FROM (SELECT AVG(SAL) AS avg_sal FROM EMP GROUP BY JOB) t);
+
+-- 30. Employees earning more than the average salary of CLERKs
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT AVG(SAL) FROM EMP WHERE JOB = 'CLERK');
+
+-- 1. Employees whose salary is greater than JONES
+SELECT * 
+FROM EMP
+WHERE SAL > (SELECT SAL FROM EMP WHERE ENAME = 'JONES');
+
+-- 2. Employees earning the same salary as SCOTT
+SELECT * 
+FROM EMP
+WHERE SAL = (SELECT SAL FROM EMP WHERE ENAME = 'SCOTT');
+
+-- 3. Employees hired after ALLEN
+SELECT *
+FROM EMP
+WHERE HIREDATE > (SELECT HIREDATE FROM EMP WHERE ENAME = 'ALLEN');
+
+-- 4. Employees working in the same department as BLAKE
+SELECT *
+FROM EMP
+WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE ENAME = 'BLAKE');
+
+-- 5. Employees having the same job as MILLER
+SELECT *
+FROM EMP
+WHERE JOB = (SELECT JOB FROM EMP WHERE ENAME = 'MILLER');
+
+-- 6. Employees earning less than the average salary
+SELECT *
+FROM EMP
+WHERE SAL < (SELECT AVG(SAL) FROM EMP);
+
+-- 7. Employees earning more than the maximum salary of CLERKs
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT MAX(SAL) FROM EMP WHERE JOB = 'CLERK');
+
+-- 8. Employee(s) with the minimum salary
+SELECT *
+FROM EMP
+WHERE SAL = (SELECT MIN(SAL) FROM EMP);
+
+-- 9. Employee(s) with the maximum salary
+SELECT *
+FROM EMP
+WHERE SAL = (SELECT MAX(SAL) FROM EMP);
+
+-- 10. Employees working in departments located in NEW YORK
+SELECT *
+FROM EMP
+WHERE DEPTNO IN (SELECT DEPTNO FROM DEPT WHERE LOC = 'NEW YORK');
+
+-- 11. Employees whose salary matches any salary in department 30
+SELECT *
+FROM EMP
+WHERE SAL IN (SELECT SAL FROM EMP WHERE DEPTNO = 30);
+
+-- 12. Employees earning more than all CLERKs
+SELECT *
+FROM EMP
+WHERE SAL > ALL (SELECT SAL FROM EMP WHERE JOB = 'CLERK');
+
+-- 13. Employees earning less than any MANAGER
+SELECT *
+FROM EMP
+WHERE SAL < ANY (SELECT SAL FROM EMP WHERE JOB = 'MANAGER');
+
+-- 14. Employees whose job appears in department 20
+SELECT *
+FROM EMP
+WHERE JOB IN (SELECT JOB FROM EMP WHERE DEPTNO = 20);
+
+-- 15. Employees whose department has at least one SALESMAN
+SELECT *
+FROM EMP
+WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE JOB = 'SALESMAN');
+
+-- 16. Employees earning the same salary as any CLERK
+SELECT *
+FROM EMP
+WHERE SAL IN (SELECT SAL FROM EMP WHERE JOB = 'CLERK');
+
+-- 17. Employees not working in departments of SALESMAN
+SELECT *
+FROM EMP
+WHERE DEPTNO NOT IN (SELECT DEPTNO FROM EMP WHERE JOB = 'SALESMAN');
+
+-- 18. Employees earning more than all employees in department 10
+SELECT *
+FROM EMP
+WHERE SAL > ALL (SELECT SAL FROM EMP WHERE DEPTNO = 10);
+
+-- 19. Employees whose department number is among departments with more than 3 employees
+SELECT *
+FROM EMP
+WHERE DEPTNO IN (
+    SELECT DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO
+    HAVING COUNT(*) > 3
+);
+
+-- 20. Employees whose salary is greater than salary of their manager
+SELECT e.*
+FROM EMP e
+JOIN EMP m ON e.MGR = m.EMPNO
+WHERE e.SAL > m.SAL;
+
+-- 21. Jobs where average salary is greater than overall average salary
+SELECT JOB
+FROM EMP
+GROUP BY JOB
+HAVING AVG(SAL) > (SELECT AVG(SAL) FROM EMP);
+
+-- 22. Employees earning more than the department average salary
+SELECT *
+FROM EMP e
+WHERE SAL > (SELECT AVG(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 23. Employees earning the highest salary in each department
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MAX(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 24. Employees earning the lowest salary in each job
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MIN(SAL) FROM EMP WHERE JOB = e.JOB);
+
+-- 25. Departments having total salary greater than department 20
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING SUM(SAL) > (SELECT SUM(SAL) FROM EMP WHERE DEPTNO = 20);
+
+-- 26. Employees whose salary equals the maximum salary of their job
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MAX(SAL) FROM EMP WHERE JOB = e.JOB);
+
+-- 27. Employees earning more than the overall average salary
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT AVG(SAL) FROM EMP);
+
+-- 28. Department(s) having the maximum number of employees
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(*) = (
+    SELECT MAX(cnt) 
+    FROM (SELECT COUNT(*) AS cnt FROM EMP GROUP BY DEPTNO) t
+);
+
+-- 29. Jobs having minimum average salary
+SELECT JOB
+FROM EMP
+GROUP BY JOB
+HAVING AVG(SAL) = (
+    SELECT MIN(avg_sal) 
+    FROM (SELECT AVG(SAL) AS avg_sal FROM EMP GROUP BY JOB) t
+);
+
+-- 30. Employees earning more than the average salary of CLERKs
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT AVG(SAL) FROM EMP WHERE JOB = 'CLERK');
+
+-- 31. Departments where average salary is highest
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING AVG(SAL) = (
+    SELECT MAX(avg_sal) 
+    FROM (SELECT AVG(SAL) AS avg_sal FROM EMP GROUP BY DEPTNO) t
+);
+
+-- 32. Employees earning more than the average salary of their own department
+SELECT *
+FROM EMP e
+WHERE SAL > (SELECT AVG(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 33. Employees earning the maximum salary in their department
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MAX(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 34. Employees earning the minimum salary in their department
+SELECT *
+FROM EMP e
+WHERE SAL = (SELECT MIN(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 35. Employees whose salary is greater than the average salary of their job
+SELECT *
+FROM EMP e
+WHERE SAL > (SELECT AVG(SAL) FROM EMP WHERE JOB = e.JOB);
+
+-- 36. Employees who are the only employee in their department
+SELECT *
+FROM EMP e
+WHERE 1 = (SELECT COUNT(*) FROM EMP WHERE DEPTNO = e.DEPTNO);
+
+-- 37. Departments having employees earning more than 5000
+SELECT DISTINCT DEPTNO
+FROM EMP
+WHERE SAL > 5000;
+
+-- 38. Employees whose department has more than 3 employees
+SELECT *
+FROM EMP e
+WHERE (SELECT COUNT(*) FROM EMP WHERE DEPTNO = e.DEPTNO) > 3;
+
+-- 39. Employees whose job has more than 2 employees
+SELECT *
+FROM EMP e
+WHERE (SELECT COUNT(*) FROM EMP WHERE JOB = e.JOB) > 2;
+
+-- 40. Employees working in departments where no one gets commission
+SELECT *
+FROM EMP e
+WHERE DEPTNO IN (
+    SELECT DEPTNO 
+    FROM EMP 
+    GROUP BY DEPTNO
+    HAVING MAX(COMM) = 0 OR MAX(COMM) IS NULL
+);
+
+-- 41. Employees whose department has at least one manager
+SELECT *
+FROM EMP e
+WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE JOB = 'MANAGER');
+
+-- 42. Departments that have employees
+SELECT DISTINCT DEPTNO
+FROM EMP;
+
+-- 43. Departments that have no employees
+SELECT DEPTNO
+FROM DEPT
+WHERE DEPTNO NOT IN (SELECT DISTINCT DEPTNO FROM EMP);
+
+-- 44. Employees who are managers (have subordinates)
+SELECT *
+FROM EMP e
+WHERE EXISTS (SELECT 1 FROM EMP WHERE MGR = e.EMPNO);
+
+-- 45. Employees who are not managers
+SELECT *
+FROM EMP e
+WHERE NOT EXISTS (SELECT 1 FROM EMP WHERE MGR = e.EMPNO);
+
+-- 46. Employees working in departments where SALESMAN exists
+SELECT *
+FROM EMP e
+WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE JOB = 'SALESMAN');
+
+-- 47. Departments where no SALESMAN exists
+SELECT DEPTNO
+FROM DEPT
+WHERE DEPTNO NOT IN (SELECT DISTINCT DEPTNO FROM EMP WHERE JOB = 'SALESMAN');
+
+-- 48. Employees whose department has employees with commission
+SELECT *
+FROM EMP e
+WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE COMM IS NOT NULL AND COMM > 0);
+
+-- 49. Departments where all employees get commission
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING MIN(COMM) > 0;
+
+-- 50. Employees whose department has no CLERKs
+SELECT *
+FROM EMP e
+WHERE DEPTNO NOT IN (SELECT DEPTNO FROM EMP WHERE JOB = 'CLERK');
+
+-- 51. Employees who work in departments located in CHICAGO
+SELECT *
+FROM EMP
+WHERE DEPTNO IN (SELECT DEPTNO FROM DEPT WHERE LOC = 'CHICAGO');
+
+-- 52. Department number and average salary of employees whose salary is greater than 2000
+SELECT DEPTNO, AVG(SAL) AS AVG_SAL
+FROM EMP
+WHERE SAL > 2000
+GROUP BY DEPTNO;
+
+-- 53. Job and total salary of employees earning more than the department average
+SELECT JOB, SUM(SAL) AS TOTAL_SAL
+FROM EMP e
+WHERE SAL > (SELECT AVG(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO)
+GROUP BY JOB;
+
+-- 54. Departments having average salary greater than overall average salary
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING AVG(SAL) > (SELECT AVG(SAL) FROM EMP);
+
+-- 55. Job-wise employee count from employees earning more than 1500
+SELECT JOB, COUNT(*) AS EMP_COUNT
+FROM EMP
+WHERE SAL > 1500
+GROUP BY JOB;
+
+-- 56. Departments having more than 2 employees earning commission
+SELECT DEPTNO
+FROM EMP
+WHERE COMM IS NOT NULL AND COMM > 0
+GROUP BY DEPTNO
+HAVING COUNT(*) > 2;
+
+-- 57. Job and maximum salary from employees hired after 1981
+SELECT JOB, MAX(SAL) AS MAX_SAL
+FROM EMP
+WHERE HIREDATE > TO_DATE('1981-12-31','YYYY-MM-DD')
+GROUP BY JOB;
+
+-- 58. Department-wise total salary excluding department 30
+SELECT DEPTNO, SUM(SAL) AS TOTAL_SAL
+FROM EMP
+WHERE DEPTNO != 30
+GROUP BY DEPTNO;
+
+-- 59. Departments having total salary greater than overall total salary average
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING SUM(SAL) > (SELECT AVG(SAL) * COUNT(*) FROM EMP);
+
+-- 60. Job-wise average salary where department has more than 3 employees
+SELECT JOB, AVG(SAL) AS AVG_SAL
+FROM EMP e
+WHERE DEPTNO IN (
+    SELECT DEPTNO
+    FROM EMP
+    GROUP BY DEPTNO
+    HAVING COUNT(*) > 3
+)
+GROUP BY JOB;
+
+-- 61. Department and job having maximum total salary
+SELECT DEPTNO, JOB
+FROM EMP
+GROUP BY DEPTNO, JOB
+HAVING SUM(SAL) = (
+    SELECT MAX(total_sal) 
+    FROM (SELECT SUM(SAL) AS total_sal FROM EMP GROUP BY DEPTNO, JOB) t
+);
+
+-- 62. Employees earning the second highest salary
+SELECT *
+FROM EMP
+WHERE SAL = (SELECT MAX(SAL) FROM EMP WHERE SAL < (SELECT MAX(SAL) FROM EMP));
+
+-- 63. Employees earning more than the average salary of departments located in DALLAS
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT AVG(SAL) FROM EMP e JOIN DEPT d ON e.DEPTNO = d.DEPTNO WHERE d.LOC = 'DALLAS');
+
+-- 64. Departments where maximum salary equals minimum salary
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING MAX(SAL) = MIN(SAL);
+
+-- 65. Employees whose salary is less than all MANAGERS but more than any CLERK
+SELECT *
+FROM EMP
+WHERE SAL < ALL (SELECT SAL FROM EMP WHERE JOB = 'MANAGER')
+  AND SAL > ANY (SELECT SAL FROM EMP WHERE JOB = 'CLERK');
+
+-- 66. Employees whose salary is equal to department-wise second highest salary
+SELECT *
+FROM EMP e
+WHERE SAL = (
+    SELECT MAX(SAL) FROM EMP 
+    WHERE DEPTNO = e.DEPTNO 
+      AND SAL < (SELECT MAX(SAL) FROM EMP WHERE DEPTNO = e.DEPTNO)
+);
+
+-- 67. Employees earning more than the median salary
+SELECT *
+FROM EMP
+WHERE SAL > (
+    SELECT MEDIAN(SAL) FROM EMP
+);
+
+-- 68. Employees whose salary is greater than 50% of employees
+SELECT *
+FROM EMP
+WHERE SAL > (SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY SAL) FROM EMP);
+
+-- 69. Employees earning the third highest salary
+SELECT *
+FROM EMP
+WHERE SAL = (
+    SELECT MIN(SAL) FROM (
+        SELECT DISTINCT SAL FROM EMP ORDER BY SAL DESC FETCH FIRST 3 ROWS ONLY
+    )
+);
+</pre>
+</section>
+
+<section id="scalar">
+<h2>Scalar Functions</h2>
+<pre>
+-- 1. Display employee name, hire date, current date, and number of days worked
+SELECT ENAME,
+       HIREDATE,
+       SYSDATE AS CURRENT_DATE,
+       TRUNC(SYSDATE - HIREDATE) AS DAYS_WORKED
+FROM EMP;
+
+-- 2. Display employee name and hire date in format: Monday, January 01, 2024
+SELECT ENAME,
+       TO_CHAR(HIREDATE, 'Day, Month DD, YYYY') AS FORMATTED_HIREDATE
+FROM EMP;
+
+-- 3. Employees who joined in the same month as current month (ignore year)
+SELECT ENAME, HIREDATE
+FROM EMP
+WHERE EXTRACT(MONTH FROM HIREDATE) = EXTRACT(MONTH FROM SYSDATE);
+
+-- 4. Display employee name and the next Monday after hire date
+SELECT ENAME,
+       NEXT_DAY(HIREDATE, 'MONDAY') AS NEXT_MONDAY
+FROM EMP;
+
+-- 5. Display employee name and last day of their joining month
+SELECT ENAME,
+       LAST_DAY(HIREDATE) AS LAST_DAY_OF_MONTH
+FROM EMP;
+
+-- 6. Employees who have completed more than 10 years
+SELECT ENAME, HIREDATE
+FROM EMP
+WHERE MONTHS_BETWEEN(SYSDATE, HIREDATE)/12 > 10;
+
+-- 7. Display employee name and number of months worked
+SELECT ENAME,
+       FLOOR(MONTHS_BETWEEN(SYSDATE, HIREDATE)) AS MONTHS_WORKED
+FROM EMP;
+
+-- 8. Display employee name, hire date, and hire date after adding 3 years 6 months
+SELECT ENAME,
+       HIREDATE,
+       ADD_MONTHS(HIREDATE, 42) AS HIREDATE_PLUS_3Y6M
+FROM EMP;
+
+-- 9. Employees hired between two given dates
+SELECT ENAME, HIREDATE
+FROM EMP
+WHERE HIREDATE BETWEEN TO_DATE('01-JAN-1981','DD-MON-YYYY')
+                     AND TO_DATE('31-DEC-1983','DD-MON-YYYY');
+
+-- 10. Difference in years between SYSDATE and hire date (rounded)
+SELECT ENAME,
+       ROUND(MONTHS_BETWEEN(SYSDATE, HIREDATE)/12) AS YEARS_WORKED
+FROM EMP;
+
+-- 11. Employee name and salary rounded to nearest 1000
+SELECT ENAME,
+       ROUND(SAL, -3) AS SAL_ROUNDED_1000
+FROM EMP;
+
+-- 12. Salary truncated to 2 decimal places
+SELECT ENAME,
+       TRUNC(SAL, 2) AS SAL_TRUNC_2_DEC
+FROM EMP;
+
+-- 13. Employee name and square root of salary
+SELECT ENAME,
+       SQRT(SAL) AS SAL_SQRT
+FROM EMP;
+
+-- 14. Absolute difference between salary and 5000
+SELECT ENAME,
+       ABS(SAL - 5000) AS ABS_DIFF
+FROM EMP;
+
+-- 15. Salary rounded up to nearest integer
+SELECT ENAME,
+       CEIL(SAL) AS SAL_CEIL
+FROM EMP;
+
+-- 16. Salary rounded down to nearest integer
+SELECT ENAME,
+       FLOOR(SAL) AS SAL_FLOOR
+FROM EMP;
+
+-- 17. Generate random number between 1 and 500
+SELECT ENAME,
+       ROUND(DBMS_RANDOM.VALUE(1,500)) AS RANDOM_NUMBER
+FROM EMP;
+
+-- 18. Remainder when salary divided by 2000
+SELECT ENAME,
+       MOD(SAL, 2000) AS SAL_MOD_2000
+FROM EMP;
+
+-- 19. Salary raised to the power of 3
+SELECT ENAME,
+       POWER(SAL,3) AS SAL_CUBED
+FROM EMP;
+
+-- 20. Round salary to nearest hundred and thousand (two columns)
+SELECT ENAME,
+       ROUND(SAL, -2) AS ROUND_HUNDRED,
+       ROUND(SAL, -3) AS ROUND_THOUSAND
+FROM EMP;
+
+-- 21. Employee names in uppercase and lowercase
+SELECT ENAME,
+       UPPER(ENAME) AS ENAME_UPPER,
+       LOWER(ENAME) AS ENAME_LOWER
+FROM EMP;
+
+-- 22. Employee name and its length
+SELECT ENAME,
+       LENGTH(ENAME) AS NAME_LENGTH
+FROM EMP;
+
+-- 23. First 4 characters of employee name
+SELECT ENAME,
+       SUBSTR(ENAME,1,4) AS FIRST_4_CHARS
+FROM EMP;
+
+-- 24. Concatenate employee name and job using '-'
+SELECT ENAME || '-' || JOB AS NAME_JOB
+FROM EMP;
+
+-- 25. Replace all occurrences of 'A' with '#'
+SELECT REPLACE(ENAME,'A','#') AS NAME_REPLACED
+FROM EMP;
+
+-- 26. Position of first occurrence of 'E' in employee name
+SELECT ENAME,
+       INSTR(ENAME,'E') AS POS_E
+FROM EMP;
+
+-- 27. Remove leading and trailing spaces from employee name
+SELECT TRIM(ENAME) AS NAME_TRIMMED
+FROM EMP;
+
+-- 28. Employee name with first letter capital, rest lowercase
+SELECT INITCAP(ENAME) AS NAME_INITCAP
+FROM EMP;
+
+-- 29. Last 3 characters of employee name
+SELECT ENAME,
+       SUBSTR(ENAME,-3) AS LAST_3_CHARS
+FROM EMP;
+
+-- 30. Pad employee name with '*' on left to length 10
+SELECT LPAD(ENAME,10,'*') AS NAME_PADDED
+FROM EMP;
+
+-- 31. Remove all spaces from employee name
+SELECT REPLACE(ENAME,' ','') AS NAME_NO_SPACES
+FROM EMP;
+
+-- 32. Employee names starting with 'S'
+SELECT ENAME
+FROM EMP
+WHERE ENAME LIKE 'S%';
+
+-- 33. Count number of characters excluding spaces
+SELECT ENAME,
+       LENGTH(REPLACE(ENAME,' ','')) AS CHAR_COUNT_NO_SPACES
+FROM EMP;
+
+-- 34. Employee name reversed
+SELECT ENAME,
+       REVERSE(ENAME) AS NAME_REVERSED
+FROM EMP;
+
+-- 35. Extract domain from email column
+SELECT EMAIL,
+       SUBSTR(EMAIL, INSTR(EMAIL,'@')+1) AS DOMAIN
+FROM EMP;
+
+-- 36. Convert current date to DD/MM/YYYY
+SELECT TO_CHAR(SYSDATE,'DD/MM/YYYY') AS CURRENT_DATE_FORMAT
+FROM DUAL;
+
+-- 37. Convert string '15-AUG-2020' to DATE
+SELECT TO_DATE('15-AUG-2020','DD-MON-YYYY') AS DATE_CONVERTED
+FROM DUAL;
+
+-- 38. Convert salary into character with currency format
+SELECT TO_CHAR(SAL,'L99,999') AS SAL_CURRENCY
+FROM EMP;
+
+-- 39. Convert number 12345 into string with commas
+SELECT TO_CHAR(12345,'99,999') AS NUM_WITH_COMMA
+FROM DUAL;
+
+-- 40. Convert hire date into format: Month DD, YYYY
+SELECT TO_CHAR(HIREDATE,'Month DD, YYYY') AS HIREDATE_FORMATTED
+FROM EMP;
+
+-- 41. Convert string column to number and perform arithmetic
+SELECT TO_NUMBER('500') + SAL AS SAL_ADDED
+FROM EMP;
+
+-- 42. Handle invalid date safely using TO_DATE
+SELECT TO_DATE('31-FEB-2020','DD-MON-YYYY') AS SAFE_DATE
+FROM DUAL;
+
+-- 43. Convert SYSDATE into year only
+SELECT EXTRACT(YEAR FROM SYSDATE) AS CURRENT_YEAR
+FROM DUAL;
+
+-- 44. Convert salary into string and concatenate
+SELECT ENAME,
+       'Salary: ' || TO_CHAR(SAL) AS SAL_TEXT
+FROM EMP;
+
+-- 45. Display hire date in multiple formats
+SELECT ENAME,
+       TO_CHAR(HIREDATE,'DD-MON-YYYY') AS FORMAT1,
+       TO_CHAR(HIREDATE,'MM/DD/YYYY') AS FORMAT2,
+       TO_CHAR(HIREDATE,'Day, DD Month YYYY') AS FORMAT3
+FROM EMP;
+
+-- 46. Employee name and salary; if NULL, display 0
+SELECT ENAME,
+       NVL(SAL,0) AS SAL_VALUE
+FROM EMP;
+
+-- 47. Employee name and commission; if NULL, display 'No Commission'
+SELECT ENAME,
+       NVL(TO_CHAR(COMM),'No Commission') AS COMM_VALUE
+FROM EMP;
+
+-- 48. Use NVL2 to show commission status (Has/No Commission)
+SELECT ENAME,
+       NVL2(COMM,'Has Commission','No Commission') AS COMM_STATUS
+FROM EMP;
+
+-- 49. Use COALESCE to display first non-null among salary, commission, bonus
+SELECT ENAME,
+       COALESCE(SAL, COMM, BONUS) AS FIRST_NON_NULL
+FROM EMP;
+
+-- 50. Employee salary; if NULL, replace with average salary
+SELECT ENAME,
+       NVL(SAL, (SELECT AVG(SAL) FROM EMP)) AS SAL_OR_AVG
+FROM EMP;
+
+-- 51. Use NULLIF to compare salary and commission
+SELECT ENAME,
+       NULLIF(SAL, COMM) AS SAL_NULLIF_COMM
+FROM EMP;
+
+-- 52. Replace NULL department name with 'No Department'
+SELECT DEPTNO,
+       NVL(DNAME,'No Department') AS DEPT_NAME
+FROM DEPT;
+
+-- 53. Display employees whose commission is NULL
+SELECT ENAME
+FROM EMP
+WHERE COMM IS NULL;
+
+-- 54. Use DECODE to categorize salary
+SELECT ENAME,
+       DECODE(SIGN(SAL-3000), -1,'Low', 0,'Medium', 1,'High') AS SAL_CATEGORY
+FROM EMP;
+
+-- 55. Use CASE to categorize employees based on experience
+SELECT ENAME,
+       CASE 
+            WHEN MONTHS_BETWEEN(SYSDATE,HIREDATE)/12 < 5 THEN 'Junior'
+            WHEN MONTHS_BETWEEN(SYSDATE,HIREDATE)/12 BETWEEN 5 AND 10 THEN 'Mid'
+            ELSE 'Senior'
+       END AS EXPERIENCE_LEVEL
+FROM EMP;
+
+-- 56. Display job; if NULL show 'Unknown Job'
+SELECT NVL(JOB,'Unknown Job') AS JOB_NAME
+FROM EMP;
+
+-- 57. Use NVL with date columns
+SELECT ENAME,
+       NVL(HIREDATE, SYSDATE) AS HIREDATE_VALUE
+FROM EMP;
+
+-- 58. Employee name and bonus; if NULL, calculate 10% of salary
+SELECT ENAME,
+       NVL(BONUS, SAL*0.1) AS BONUS_VALUE
+FROM EMP;
+
+-- 59. Use COALESCE with multiple NULL columns
+SELECT ENAME,
+       COALESCE(SAL, COMM, BONUS, 0) AS FIRST_NON_NULL
+FROM EMP;
+
+-- 60. Combine NVL and TO_CHAR for formatted output
+SELECT ENAME,
+       TO_CHAR(NVL(SAL,0),'L99,999') AS SAL_FORMATTED
+FROM EMP;
+</pre>
+</section>
+
+<section id="joins">
+<h2>Joins</h2>
+<pre>
+-- 1. Display employee name and department name
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 2. Display employee name, salary, and department location
+SELECT E.ENAME, E.SAL, D.LOC
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 3. Display employee name and department name for department 10
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.DEPTNO = 10;
+
+-- 4. Display employee name and department name where salary > 2000
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.SAL > 2000;
+
+-- 5. Display employee name, job, and department name
+SELECT E.ENAME, E.JOB, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 6. Display employee name and department location for CLERKs
+SELECT E.ENAME, D.LOC
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.JOB = 'CLERK';
+
+-- 7. Display employee name and department name working in NEW YORK
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.LOC = 'NEW YORK';
+
+-- 8. Display employee name, department number, and department name
+SELECT E.ENAME, E.DEPTNO, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 9. Display employees hired after 1981 with department name
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.HIREDATE > TO_DATE('31-DEC-1981','DD-MON-YYYY');
+
+-- 10. Display employees with commission along with department name
+SELECT E.ENAME, E.COMM, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.COMM IS NOT NULL;
+
+-- 11. Employees with salary between 1500 and 3000 with department
+SELECT E.ENAME, E.SAL, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.SAL BETWEEN 1500 AND 3000;
+
+-- 12. Employees who are the only employee in their department
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+GROUP BY E.DEPTNO, E.ENAME, D.DNAME
+HAVING COUNT(*) = 1;
+
+-- 13. Employees whose department has more than 3 employees
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+GROUP BY E.DEPTNO, E.ENAME, D.DNAME
+HAVING COUNT(E.EMPNO) > 3;
+
+-- 14. Departments where no employee earns more than 2000
+SELECT D.DNAME
+FROM DEPT D
+LEFT JOIN EMP E ON D.DEPTNO = E.DEPTNO
+GROUP BY D.DNAME
+HAVING MAX(E.SAL) <= 2000 OR MAX(E.SAL) IS NULL;
+
+-- 15. Employees who earn more than at least one manager
+SELECT E.ENAME, E.SAL
+FROM EMP E
+WHERE E.SAL > ANY (SELECT SAL FROM EMP WHERE JOB = 'MANAGER');
+
+-- 16. Employees who share same job and department
+SELECT E1.ENAME, E2.ENAME, E1.JOB, E1.DEPTNO
+FROM EMP E1
+JOIN EMP E2 ON E1.JOB = E2.JOB AND E1.DEPTNO = E2.DEPTNO AND E1.EMPNO <> E2.EMPNO;
+
+-- 17. Employees working in same department as their manager
+SELECT E.ENAME, E.DEPTNO
+FROM EMP E
+JOIN EMP M ON E.MGR = M.EMPNO
+WHERE E.DEPTNO = M.DEPTNO;
+
+-- 18. Employees whose manager works in a different department
+SELECT E.ENAME, E.DEPTNO
+FROM EMP E
+JOIN EMP M ON E.MGR = M.EMPNO
+WHERE E.DEPTNO <> M.DEPTNO;
+
+-- 19. Employees who are highest paid in their department
+SELECT E.ENAME, E.SAL, E.DEPTNO
+FROM EMP E
+WHERE E.SAL = (SELECT MAX(SAL) FROM EMP WHERE DEPTNO = E.DEPTNO);
+
+-- 20. Employees earning more than their department average
+SELECT E.ENAME, E.SAL, E.DEPTNO
+FROM EMP E
+WHERE E.SAL > (SELECT AVG(SAL) FROM EMP WHERE DEPTNO = E.DEPTNO);
+
+-- 21. Department with maximum employees
+SELECT D.DNAME, COUNT(E.EMPNO) AS EMP_COUNT
+FROM DEPT D
+JOIN EMP E ON D.DEPTNO = E.DEPTNO
+GROUP BY D.DNAME
+ORDER BY EMP_COUNT DESC
+FETCH FIRST 1 ROW ONLY;
+
+-- 22. Department with highest total salary
+SELECT D.DNAME, SUM(E.SAL) AS TOTAL_SAL
+FROM DEPT D
+JOIN EMP E ON D.DEPTNO = E.DEPTNO
+GROUP BY D.DNAME
+ORDER BY TOTAL_SAL DESC
+FETCH FIRST 1 ROW ONLY;
+
+-- 23. Department name and average salary
+SELECT D.DNAME, AVG(E.SAL) AS AVG_SAL
+FROM DEPT D
+JOIN EMP E ON D.DEPTNO = E.DEPTNO
+GROUP BY D.DNAME;
+
+-- 24. Department name and total salary
+SELECT D.DNAME, SUM(E.SAL) AS TOTAL_SAL
+FROM DEPT D
+JOIN EMP E ON D.DEPTNO = E.DEPTNO
+GROUP BY D.DNAME;
+
+-- 25. Department name and number of employees
+SELECT D.DNAME, COUNT(E.EMPNO) AS EMP_COUNT
+FROM DEPT D
+JOIN EMP E ON D.DEPTNO = E.DEPTNO
+GROUP BY D.DNAME;
+
+-- 26. Employees not assigned to any department
+SELECT ENAME
+FROM EMP
+WHERE DEPTNO IS NULL;
+
+-- 27. Departments with no employees
+SELECT DNAME
+FROM DEPT D
+LEFT JOIN EMP E ON D.DEPTNO = E.DEPTNO
+WHERE E.EMPNO IS NULL;
+
+-- 28. All departments with employees (even if no employees)
+SELECT D.DNAME, E.ENAME
+FROM DEPT D
+LEFT JOIN EMP E ON D.DEPTNO = E.DEPTNO;
+
+-- 29. All employees with department name (even if no department)
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+LEFT JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 30. Employees whose manager works in department 10
+SELECT E.ENAME, E.MGR
+FROM EMP E
+JOIN EMP M ON E.MGR = M.EMPNO
+WHERE M.DEPTNO = 10;
+
+-- 31. Employees working under the same manager
+SELECT E1.ENAME, E2.ENAME, E1.MGR
+FROM EMP E1
+JOIN EMP E2 ON E1.MGR = E2.MGR AND E1.EMPNO <> E2.EMPNO;
+
+-- 32. Employees earning more than their manager
+SELECT E.ENAME, E.SAL
+FROM EMP E
+JOIN EMP M ON E.MGR = M.EMPNO
+WHERE E.SAL > M.SAL;
+
+-- 33. Employee name and manager salary
+SELECT E.ENAME, M.SAL AS MANAGER_SAL
+FROM EMP E
+LEFT JOIN EMP M ON E.MGR = M.EMPNO;
+
+-- 34. Employees who are managers
+SELECT DISTINCT M.ENAME
+FROM EMP E
+JOIN EMP M ON E.MGR = M.EMPNO;
+
+-- 35. Employees who do not have managers
+SELECT ENAME
+FROM EMP
+WHERE MGR IS NULL;
+
+-- 36. Employee name and manager name
+SELECT E.ENAME, M.ENAME AS MANAGER_NAME
+FROM EMP E
+LEFT JOIN EMP M ON E.MGR = M.EMPNO;
+
+-- 37. Employees whose department location is DALLAS
+SELECT E.ENAME, D.LOC
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.LOC = 'DALLAS';
+
+-- 38. Employees whose department is ACCOUNTING
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.DNAME = 'ACCOUNTING';
+
+-- 39. Employees not working in department 30 with department name
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.DEPTNO <> 30;
+
+-- 40. Employees whose job is MANAGER with department location
+SELECT E.ENAME, D.LOC
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE E.JOB = 'MANAGER';
+</pre>
+</section>
+
+<section id="set">
+<h2>Set Operators</h2>
+<pre>
+-- 1. All department numbers from EMP and DEPT using UNION
+SELECT DEPTNO FROM EMP
+UNION
+SELECT DEPTNO FROM DEPT;
+
+-- 2. All department numbers from EMP and DEPT including duplicates using UNION ALL
+SELECT DEPTNO FROM EMP
+UNION ALL
+SELECT DEPTNO FROM DEPT;
+
+-- 3. Department numbers present in both EMP and DEPT using INTERSECT
+SELECT DEPTNO FROM EMP
+INTERSECT
+SELECT DEPTNO FROM DEPT;
+
+-- 4. Department numbers in EMP but not in DEPT using MINUS
+SELECT DEPTNO FROM EMP
+MINUS
+SELECT DEPTNO FROM DEPT;
+
+-- 5. Department numbers in DEPT but not assigned to any employee
+SELECT DEPTNO FROM DEPT
+MINUS
+SELECT DEPTNO FROM EMP;
+
+-- 6. Employee names and department names in a single column using UNION
+SELECT ENAME AS NAME FROM EMP
+UNION
+SELECT DNAME AS NAME FROM DEPT;
+
+-- 7. All employee names and department names including duplicates using UNION ALL
+SELECT ENAME AS NAME FROM EMP
+UNION ALL
+SELECT DNAME AS NAME FROM DEPT;
+
+-- 8. Jobs in EMP that also exist as department names in DEPT (INTERSECT)
+SELECT JOB FROM EMP
+INTERSECT
+SELECT DNAME FROM DEPT;
+
+-- 9. Employee names that are not department names (MINUS)
+SELECT ENAME FROM EMP
+MINUS
+SELECT DNAME FROM DEPT;
+
+-- 10. Department locations not used by any employee
+-- Assuming EMP does not have LOC column, use join + MINUS
+SELECT LOC FROM DEPT
+MINUS
+SELECT D.LOC
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 11. Employee names from department 10 and 20 using UNION
+SELECT ENAME FROM EMP WHERE DEPTNO = 10
+UNION
+SELECT ENAME FROM EMP WHERE DEPTNO = 20;
+
+-- 12. Employee names from department 10 and 20 including duplicates using UNION ALL
+SELECT ENAME FROM EMP WHERE DEPTNO = 10
+UNION ALL
+SELECT ENAME FROM EMP WHERE DEPTNO = 20;
+
+-- 13. Employees working in departments that exist in DEPT (INTERSECT)
+SELECT DEPTNO FROM EMP
+INTERSECT
+SELECT DEPTNO FROM DEPT;
+
+-- 14. Employees whose department does not exist in DEPT (MINUS)
+SELECT DEPTNO FROM EMP
+MINUS
+SELECT DEPTNO FROM DEPT;
+
+-- 15. Department numbers that have employees and exist in DEPT (INTERSECT)
+SELECT DEPTNO FROM EMP
+INTERSECT
+SELECT DEPTNO FROM DEPT;
+
+-- 16. All unique job roles from EMP and unique department names from DEPT in one result
+SELECT JOB AS VALUE FROM EMP
+UNION
+SELECT DNAME AS VALUE FROM DEPT;
+
+-- 17. Common values between employee job and department location (INTERSECT)
+SELECT JOB FROM EMP
+INTERSECT
+SELECT LOC FROM DEPT;
+
+-- 18. Employee names not assigned to any valid department (MINUS)
+SELECT ENAME FROM EMP
+MINUS
+SELECT ENAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 19. Employees earning > 2000 or from department 10 (UNION)
+SELECT ENAME FROM EMP WHERE SAL > 2000
+UNION
+SELECT ENAME FROM EMP WHERE DEPTNO = 10;
+
+-- 20. Employees in department 10 but not in department 20 (MINUS)
+SELECT ENAME FROM EMP WHERE DEPTNO = 10
+MINUS
+SELECT ENAME FROM EMP WHERE DEPTNO = 20;
+
+-- 21. Department numbers that exist in EMP and DEPT but exclude department 10
+SELECT DEPTNO FROM EMP
+INTERSECT
+SELECT DEPTNO FROM DEPT
+MINUS
+SELECT 10 FROM DUAL;
+
+-- 22. All employee names and department names in a single result sorted alphabetically
+SELECT ENAME AS NAME FROM EMP
+UNION
+SELECT DNAME AS NAME FROM DEPT
+ORDER BY NAME;
+
+-- 23. Department numbers appearing in EMP more than once using UNION ALL
+SELECT DEPTNO FROM EMP
+UNION ALL
+SELECT DEPTNO FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(*) > 1;
+
+-- 24. Employees from departments located in NEW YORK and DALLAS using UNION
+SELECT E.ENAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.LOC = 'NEW YORK'
+UNION
+SELECT E.ENAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WHERE D.LOC = 'DALLAS';
+
+-- 25. Employees with salary > 3000 or job = 'MANAGER', remove duplicates
+SELECT ENAME FROM EMP WHERE SAL > 3000
+UNION
+SELECT ENAME FROM EMP WHERE JOB = 'MANAGER';
+</pre>
+</section>
+
+<section id="views">
+<h2>Views</h2>
+<pre>
+-- 1. View: Employee name, salary, department number
+CREATE OR REPLACE VIEW emp_view AS
+SELECT ENAME, SAL, DEPTNO
+FROM EMP;
+
+-- 2. View: Employee name and department name (join EMP + DEPT)
+CREATE OR REPLACE VIEW emp_dept_view AS
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 3. View: Employees in department 10
+CREATE OR REPLACE VIEW emp_dept10_view AS
+SELECT *
+FROM EMP
+WHERE DEPTNO = 10;
+
+-- 4. View: Employee name, job, annual salary (SAL * 12)
+CREATE OR REPLACE VIEW emp_annual_salary_view AS
+SELECT ENAME, JOB, SAL*12 AS ANNUAL_SAL
+FROM EMP;
+
+-- 5. View: Department name and location
+CREATE OR REPLACE VIEW dept_view AS
+SELECT DNAME, LOC
+FROM DEPT;
+
+-- 6. View: Employee name, department name, location
+CREATE OR REPLACE VIEW emp_dept_loc_view AS
+SELECT E.ENAME, D.DNAME, D.LOC
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 7. View: Employees earning more than 3000
+CREATE OR REPLACE VIEW emp_high_salary_view AS
+SELECT *
+FROM EMP
+WHERE SAL > 3000;
+
+-- 8. View: Department-wise total salary
+CREATE OR REPLACE VIEW dept_total_salary_view AS
+SELECT DEPTNO, SUM(SAL) AS TOTAL_SALARY
+FROM EMP
+GROUP BY DEPTNO;
+
+-- 9. View: Only managers
+CREATE OR REPLACE VIEW managers_view AS
+SELECT *
+FROM EMP
+WHERE JOB = 'MANAGER';
+
+-- 10. View: Column aliases for employee name and salary
+CREATE OR REPLACE VIEW emp_alias_view AS
+SELECT ENAME AS EMPLOYEE_NAME, SAL AS SALARY
+FROM EMP;
+
+-- 11. View: Employees in department 20 with CHECK OPTION
+CREATE OR REPLACE VIEW emp_dept20_view AS
+SELECT *
+FROM EMP
+WHERE DEPTNO = 20
+WITH CHECK OPTION;
+
+-- 12. Insert valid employee into the above view
+INSERT INTO emp_dept20_view (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (9999, 'John Doe', 'CLERK', 7839, SYSDATE, 1500, NULL, 20);
+
+-- 13. Insert invalid employee (department 30) – fails due to CHECK OPTION
+-- INSERT INTO emp_dept20_view (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+-- VALUES (9998, 'Jane Doe', 'CLERK', 7839, SYSDATE, 1500, NULL, 30);
+
+-- 14. Update department number from 20 to 30 – fails due to CHECK OPTION
+-- UPDATE emp_dept20_view SET DEPTNO = 30 WHERE EMPNO = 9999;
+
+-- 15. View: Employees with salary > 2000 using WITH CHECK OPTION
+CREATE OR REPLACE VIEW emp_sal2000_view AS
+SELECT *
+FROM EMP
+WHERE SAL > 2000
+WITH CHECK OPTION;
+
+-- 16. Read-only view for employee details
+CREATE OR REPLACE VIEW emp_readonly_view AS
+SELECT *
+FROM EMP
+WITH READ ONLY;
+
+-- 17. Read-only view: Employee name and department name
+CREATE OR REPLACE VIEW emp_dept_readonly_view AS
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WITH READ ONLY;
+
+-- 18. Updating salary through read-only view – fails
+-- UPDATE emp_readonly_view SET SAL = 5000 WHERE EMPNO = 7839;
+
+-- 19. Inserting employee through read-only view – fails
+-- INSERT INTO emp_readonly_view VALUES (9999, 'Test', 'CLERK', 7839, SYSDATE, 2000, NULL, 10);
+
+-- 20. Read-only view: Employees in department 10
+CREATE OR REPLACE VIEW emp_dept10_readonly_view AS
+SELECT *
+FROM EMP
+WHERE DEPTNO = 10
+WITH READ ONLY;
+
+-- 21. Materialized view: Employee name and salary
+CREATE MATERIALIZED VIEW emp_mv_basic AS
+SELECT ENAME, SAL
+FROM EMP;
+
+-- 22. Materialized view: Employee name and department name
+CREATE MATERIALIZED VIEW emp_dept_mv AS
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+
+-- 23. Materialized view: Complete refresh
+CREATE MATERIALIZED VIEW emp_mv_complete
+REFRESH COMPLETE
+AS SELECT * FROM EMP;
+
+-- 24. Materialized view: Fast refresh (assumes materialized view log exists)
+CREATE MATERIALIZED VIEW emp_mv_fast
+REFRESH FAST
+AS SELECT * FROM EMP;
+
+-- 25. Materialized view: Refresh on commit
+CREATE MATERIALIZED VIEW emp_mv_auto
+REFRESH ON COMMIT
+AS SELECT * FROM EMP;
+
+-- 26. Materialized view: Department-wise total salary
+CREATE MATERIALIZED VIEW dept_total_salary_mv AS
+SELECT DEPTNO, SUM(SAL) AS TOTAL_SALARY
+FROM EMP
+GROUP BY DEPTNO;
+
+-- 27. Materialized view: BUILD IMMEDIATE
+CREATE MATERIALIZED VIEW emp_mv_build_immediate
+BUILD IMMEDIATE
+AS SELECT ENAME, SAL FROM EMP;
+
+-- 28. Materialized view: BUILD DEFERRED
+CREATE MATERIALIZED VIEW emp_mv_build_deferred
+BUILD DEFERRED
+AS SELECT ENAME, SAL FROM EMP;
+
+-- 29. Refresh a materialized view manually
+-- EXEC DBMS_MVIEW.REFRESH('EMP_MV_BASIC');
+
+-- 30. Drop a materialized view
+-- DROP MATERIALIZED VIEW emp_mv_basic;
+
+-- 31. View joining EMP and DEPT with CHECK OPTION
+CREATE OR REPLACE VIEW emp_dept_check_view AS
+SELECT E.ENAME, E.SAL, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WITH CHECK OPTION;
+
+-- 32. Read-only view: Employee name, department name, salary
+CREATE OR REPLACE VIEW emp_dept_salary_readonly AS
+SELECT E.ENAME, D.DNAME, E.SAL
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+WITH READ ONLY;
+
+-- 33. Complex view: Department name and highest salary
+CREATE OR REPLACE VIEW dept_high_salary_view AS
+SELECT D.DNAME, MAX(E.SAL) AS HIGHEST_SAL
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+GROUP BY D.DNAME;
+
+-- 34. Materialized view: Based on complex query
+CREATE MATERIALIZED VIEW dept_high_salary_mv AS
+SELECT D.DNAME, MAX(E.SAL) AS HIGHEST_SAL
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+GROUP BY D.DNAME;
+
+-- 35. View hiding salary but showing employee name and department name
+CREATE OR REPLACE VIEW emp_dept_no_salary_view AS
+SELECT E.ENAME, D.DNAME
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO;
+</pre>
+</section>
+
+<section id="tcl">
+<h2>TCL & DCL</h2>
+<pre>
+-- 1. Grant SELECT on EMP to USER1
+GRANT SELECT ON EMP TO USER1;
+
+-- 2. Grant SELECT and INSERT on EMP to USER2
+GRANT SELECT, INSERT ON EMP TO USER2;
+
+-- 3. Grant all privileges on DEPT to USER3
+GRANT ALL ON DEPT TO USER3;
+
+-- 4. Grant SELECT on EMP to USER4 with GRANT OPTION
+GRANT SELECT ON EMP TO USER4 WITH GRANT OPTION;
+
+-- 5. Grant UPDATE only on SAL column of EMP to USER5
+GRANT UPDATE (SAL) ON EMP TO USER5;
+
+-- 6. Grant DELETE on EMP to USER6
+GRANT DELETE ON EMP TO USER6;
+
+-- 7. Grant SELECT on EMP and DEPT to USER7
+GRANT SELECT ON EMP, DEPT TO USER7;
+
+-- 8. Grant privileges on EMP to PUBLIC
+GRANT SELECT ON EMP TO PUBLIC;
+
+-- 9. Grant INSERT on EMP to USER8 with GRANT OPTION
+GRANT INSERT ON EMP TO USER8 WITH GRANT OPTION;
+
+-- 10. Grant UPDATE and DELETE on EMP to USER9
+GRANT UPDATE, DELETE ON EMP TO USER9;
+
+-- 11. Revoke SELECT from USER1
+REVOKE SELECT ON EMP FROM USER1;
+
+-- 12. Revoke INSERT and UPDATE from USER2
+REVOKE INSERT, UPDATE ON EMP FROM USER2;
+
+-- 13. Revoke ALL privileges from USER3 on DEPT
+REVOKE ALL ON DEPT FROM USER3;
+
+-- 14. Revoke GRANT OPTION from USER4
+REVOKE GRANT OPTION FOR SELECT ON EMP FROM USER4;
+
+-- 15. Revoke UPDATE on SAL from USER5
+REVOKE UPDATE (SAL) ON EMP FROM USER5;
+
+-- 16. Revoke DELETE from USER6
+REVOKE DELETE ON EMP FROM USER6;
+
+-- 17. Revoke privileges granted to PUBLIC on EMP
+REVOKE SELECT ON EMP FROM PUBLIC;
+
+-- 18. Revoke all privileges from USER9 on EMP
+REVOKE ALL ON EMP FROM USER9;
+
+-- 19. Insert a new employee and commit
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1010, 'Alice', 'CLERK', 7839, SYSDATE, 1200, NULL, 10);
+COMMIT;
+
+-- 20. Update salary in department 10 and commit
+UPDATE EMP
+SET SAL = SAL + 500
+WHERE DEPTNO = 10;
+COMMIT;
+
+-- 21. Delete employees with salary < 1000 and commit
+DELETE FROM EMP
+WHERE SAL < 1000;
+COMMIT;
+
+-- 22. Insert multiple records into DEPT and commit
+INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50, 'RESEARCH', 'CHICAGO');
+INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (60, 'SALES', 'BOSTON');
+COMMIT;
+
+-- 23. Update department location and commit
+UPDATE DEPT
+SET LOC = 'NEW YORK'
+WHERE DEPTNO = 20;
+COMMIT;
+
+-- 24. Insert new employee but rollback
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1011, 'Bob', 'ANALYST', 7566, SYSDATE, 2500, NULL, 20);
+ROLLBACK;
+
+-- 25. Update salary and rollback
+UPDATE EMP SET SAL = SAL + 1000 WHERE DEPTNO = 30;
+ROLLBACK;
+
+-- 26. Delete records from EMP and rollback
+DELETE FROM EMP WHERE DEPTNO = 40;
+ROLLBACK;
+
+-- 27. Multiple operations and rollback
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1012, 'Charlie', 'SALESMAN', 7698, SYSDATE, 1800, 300, 30);
+UPDATE EMP SET SAL = SAL + 500 WHERE DEPTNO = 10;
+DELETE FROM EMP WHERE DEPTNO = 50;
+ROLLBACK;
+
+-- 28. Update department location and rollback
+UPDATE DEPT SET LOC = 'DALLAS' WHERE DEPTNO = 30;
+ROLLBACK;
+
+-- 29. Insert new employee, update salary, commit after verification
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1013, 'David', 'MANAGER', 7839, SYSDATE, 4000, NULL, 10);
+UPDATE EMP SET SAL = SAL + 200 WHERE EMPNO = 1013;
+-- Verify then commit
+COMMIT;
+
+-- 30. Multiple inserts, rollback one using SAVEPOINT
+SAVEPOINT sp1;
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1014, 'Eve', 'CLERK', 7839, SYSDATE, 1500, NULL, 20);
+SAVEPOINT sp2;
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1015, 'Frank', 'ANALYST', 7566, SYSDATE, 2200, NULL, 20);
+ROLLBACK TO sp2;  -- Rollback only second insert
+COMMIT;
+
+-- 31. Partial transaction: some committed, others rolled back
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1016, 'Grace', 'CLERK', 7839, SYSDATE, 1300, NULL, 10);
+COMMIT;
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1017, 'Hank', 'ANALYST', 7566, SYSDATE, 2700, NULL, 20);
+ROLLBACK;
+
+-- 32. Demonstrate SAVEPOINT
+SAVEPOINT before_update;
+UPDATE EMP SET SAL = SAL + 100 WHERE DEPTNO = 10;
+ROLLBACK TO before_update;
+
+-- 33. Update and rollback to a specific SAVEPOINT
+SAVEPOINT sp_before_delete;
+DELETE FROM EMP WHERE SAL < 1200;
+ROLLBACK TO sp_before_delete;
+
+-- 34. Grant privileges, perform DML, commit
+GRANT INSERT, UPDATE ON EMP TO USER10;
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO)
+VALUES (1018, 'Ivy', 'CLERK', 7839, SYSDATE, 1400, NULL, 10);
+UPDATE EMP SET SAL = SAL + 100 WHERE EMPNO = 1018;
+COMMIT;
+
+-- 35. Revoke privileges and test access
+REVOKE INSERT, UPDATE ON EMP FROM USER10;
+-- USER10 can no longer insert or update EMP
+</pre>
+</section>
+
+<section id="plsql">
+<h2>PL/SQL Basics</h2>
+<pre>
+-- 1. Print your name and city
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Name: John Doe');
+    DBMS_OUTPUT.PUT_LINE('City: New York');
+END;
+/
+
+-- 2. Display numbers from 1 to 5
+BEGIN
+    FOR i IN 1..5 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+
+-- 3. Print the current system date
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Current Date: ' || SYSDATE);
+END;
+/
+
+-- 4. Display employee name and salary using variables
+DECLARE
+    emp_name VARCHAR2(50) := 'Alice';
+    emp_salary NUMBER := 2500;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name || ', Salary: ' || emp_salary);
+END;
+/
+
+-- 5. Declare age variable and display it
+DECLARE
+    age NUMBER := 25;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Age: ' || age);
+END;
+/
+
+-- 6. Declare two variables and print their sum
+DECLARE
+    a NUMBER := 10;
+    b NUMBER := 20;
+    sum_val NUMBER;
+BEGIN
+    sum_val := a + b;
+    DBMS_OUTPUT.PUT_LINE('Sum: ' || sum_val);
+END;
+/
+
+-- 7. Store employee name and salary in variables and display
+DECLARE
+    emp_name VARCHAR2(50) := 'Bob';
+    emp_salary NUMBER := 3000;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name);
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || emp_salary);
+END;
+/
+
+-- 8. Swap two numbers
+DECLARE
+    x NUMBER := 5;
+    y NUMBER := 10;
+    temp NUMBER;
+BEGIN
+    temp := x;
+    x := y;
+    y := temp;
+    DBMS_OUTPUT.PUT_LINE('x: ' || x || ', y: ' || y);
+END;
+/
+
+-- 9. Calculate area of rectangle
+DECLARE
+    length NUMBER := 10;
+    width NUMBER := 5;
+    area NUMBER;
+BEGIN
+    area := length * width;
+    DBMS_OUTPUT.PUT_LINE('Rectangle Area: ' || area);
+END;
+/
+
+-- 10. Constant PI and circle area
+DECLARE
+    PI CONSTANT NUMBER := 3.1416;
+    radius NUMBER := 7;
+    area NUMBER;
+BEGIN
+    area := PI * radius * radius;
+    DBMS_OUTPUT.PUT_LINE('Circle Area: ' || area);
+END;
+/
+
+-- 11. Constant tax rate and total salary after tax
+DECLARE
+    TAX_RATE CONSTANT NUMBER := 0.1;
+    salary NUMBER := 5000;
+    net_salary NUMBER;
+BEGIN
+    net_salary := salary * (1 - TAX_RATE);
+    DBMS_OUTPUT.PUT_LINE('Net Salary: ' || net_salary);
+END;
+/
+
+-- 12. Try modifying a constant (will cause error)
+DECLARE
+    PI CONSTANT NUMBER := 3.14;
+BEGIN
+    -- PI := 3.1416; -- Uncommenting will raise error
+    DBMS_OUTPUT.PUT_LINE('PI: ' || PI);
+END;
+/
+
+-- 13. Calculate simple interest using constant rate
+DECLARE
+    RATE CONSTANT NUMBER := 0.05;
+    principal NUMBER := 10000;
+    time NUMBER := 2;
+    SI NUMBER;
+BEGIN
+    SI := principal * RATE * time;
+    DBMS_OUTPUT.PUT_LINE('Simple Interest: ' || SI);
+END;
+/
+
+-- 14. Different datatypes: NUMBER, VARCHAR2, DATE
+DECLARE
+    num_var NUMBER := 100;
+    str_var VARCHAR2(50) := 'Hello';
+    date_var DATE := SYSDATE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Number: ' || num_var);
+    DBMS_OUTPUT.PUT_LINE('String: ' || str_var);
+    DBMS_OUTPUT.PUT_LINE('Date: ' || date_var);
+END;
+/
+
+-- 15. Variable using %TYPE from EMP salary
+DECLARE
+    emp_salary EMP.SAL%TYPE;
+BEGIN
+    emp_salary := 2500;
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || emp_salary);
+END;
+/
+
+-- 16. Record using %ROWTYPE for EMP
+DECLARE
+    emp_rec EMP%ROWTYPE;
+BEGIN
+    emp_rec.EMPNO := 101;
+    emp_rec.ENAME := 'Clara';
+    emp_rec.SAL := 2800;
+    DBMS_OUTPUT.PUT_LINE('Emp No: ' || emp_rec.EMPNO || ', Name: ' || emp_rec.ENAME || ', Salary: ' || emp_rec.SAL);
+END;
+/
+
+-- 17. Store and display current date using DATE datatype
+DECLARE
+    current_date DATE := SYSDATE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Today is: ' || current_date);
+END;
+/
+
+-- 18. Convert number to string and display
+DECLARE
+    num NUMBER := 123;
+    str VARCHAR2(10);
+BEGIN
+    str := TO_CHAR(num);
+    DBMS_OUTPUT.PUT_LINE('Number as string: ' || str);
+END;
+/
+
+-- 19. Variables, constants, and output together
+DECLARE
+    emp_name VARCHAR2(50) := 'Derek';
+    salary NUMBER := 4000;
+    TAX CONSTANT NUMBER := 0.1;
+    net_salary NUMBER;
+BEGIN
+    net_salary := salary * (1 - TAX);
+    DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name || ', Net Salary: ' || net_salary);
+END;
+/
+
+-- 20. Employee details using %ROWTYPE, constants, comments
+DECLARE
+    emp_rec EMP%ROWTYPE;
+    BONUS_RATE CONSTANT NUMBER := 0.1;
+BEGIN
+    -- Assign values
+    emp_rec.EMPNO := 102;
+    emp_rec.ENAME := 'Eva';
+    emp_rec.SAL := 3500;
+    DBMS_OUTPUT.PUT_LINE('Emp: ' || emp_rec.ENAME || ', Salary: ' || emp_rec.SAL);
+    DBMS_OUTPUT.PUT_LINE('Bonus: ' || emp_rec.SAL * BONUS_RATE);
+END;
+/
+
+-- 21. Calculate bonus (10% of salary) with comments
+DECLARE
+    emp_salary NUMBER := 5000;
+    bonus NUMBER;
+BEGIN
+    -- Calculate 10% bonus
+    bonus := emp_salary * 0.1;
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || emp_salary);
+    DBMS_OUTPUT.PUT_LINE('Bonus: ' || bonus);
+END;
+/
+
+-- 22. Full practice: variable, constant, datatype, output
+DECLARE
+    emp_name VARCHAR2(50) := 'Frank';
+    salary NUMBER := 4500;
+    BONUS_RATE CONSTANT NUMBER := 0.1;
+    net_salary NUMBER;
+    today DATE := SYSDATE;
+BEGIN
+    net_salary := salary + (salary * BONUS_RATE);
+    DBMS_OUTPUT.PUT_LINE('Employee: ' || emp_name);
+    DBMS_OUTPUT.PUT_LINE('Net Salary with Bonus: ' || net_salary);
+    DBMS_OUTPUT.PUT_LINE('Date: ' || today);
+END;
+/
+</pre>
+</section>
+
+<section id="decision">
+<h2>PL/SQL Decisions</h2>
+<pre>
+-- 1. Check if a number is positive
+DECLARE
+    num NUMBER := 10;
+BEGIN
+    IF num > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Number is positive');
+    END IF;
+END;
+/
+
+-- 2. Check if employee salary is greater than 3000
+DECLARE
+    salary NUMBER := 3500;
+BEGIN
+    IF salary > 3000 THEN
+        DBMS_OUTPUT.PUT_LINE('Salary is greater than 3000');
+    END IF;
+END;
+/
+
+-- 3. Check if a number is even
+DECLARE
+    num NUMBER := 8;
+BEGIN
+    IF MOD(num, 2) = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Number is even');
+    END IF;
+END;
+/
+
+-- 4. Display a message if today is Monday
+BEGIN
+    IF TO_CHAR(SYSDATE,'DY','NLS_DATE_LANGUAGE=ENGLISH') = 'MON' THEN
+        DBMS_OUTPUT.PUT_LINE('Today is Monday');
+    END IF;
+END;
+/
+
+-- 5. Check if a number is divisible by 5
+DECLARE
+    num NUMBER := 25;
+BEGIN
+    IF MOD(num, 5) = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Number is divisible by 5');
+    END IF;
+END;
+/
+
+-- 6. Check whether a number is even or odd
+DECLARE
+    num NUMBER := 7;
+BEGIN
+    IF MOD(num,2) = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Even');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Odd');
+    END IF;
+END;
+/
+
+-- 7. Check whether a number is positive or negative
+DECLARE
+    num NUMBER := -5;
+BEGIN
+    IF num >= 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Positive');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Negative');
+    END IF;
+END;
+/
+
+-- 8. Compare two numbers and display the greater one
+DECLARE
+    a NUMBER := 15;
+    b NUMBER := 20;
+BEGIN
+    IF a > b THEN
+        DBMS_OUTPUT.PUT_LINE('Greater number: ' || a);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Greater number: ' || b);
+    END IF;
+END;
+/
+
+-- 9. Check if student passed (marks >=40) or failed
+DECLARE
+    marks NUMBER := 55;
+BEGIN
+    IF marks >= 40 THEN
+        DBMS_OUTPUT.PUT_LINE('Passed');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Failed');
+    END IF;
+END;
+/
+
+-- 10. Check if salary is above average
+DECLARE
+    salary NUMBER := 4000;
+    avg_salary NUMBER := 3500;
+BEGIN
+    IF salary > avg_salary THEN
+        DBMS_OUTPUT.PUT_LINE('Above Average');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Below or Equal Average');
+    END IF;
+END;
+/
+
+-- 11. Assign grades based on marks
+DECLARE
+    marks NUMBER := 75;
+BEGIN
+    IF marks >= 80 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade: A');
+    ELSIF marks >= 60 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade: B');
+    ELSIF marks >= 40 THEN
+        DBMS_OUTPUT.PUT_LINE('Grade: C');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Fail');
+    END IF;
+END;
+/
+
+-- 12. Find greatest of three numbers
+DECLARE
+    a NUMBER := 10; b NUMBER := 20; c NUMBER := 15;
+BEGIN
+    IF a > b AND a > c THEN
+        DBMS_OUTPUT.PUT_LINE('Greatest: ' || a);
+    ELSIF b > c THEN
+        DBMS_OUTPUT.PUT_LINE('Greatest: ' || b);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Greatest: ' || c);
+    END IF;
+END;
+/
+
+-- 13. Check if number is positive, negative, or zero
+DECLARE
+    num NUMBER := 0;
+BEGIN
+    IF num > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Positive');
+    ELSIF num < 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Negative');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Zero');
+    END IF;
+END;
+/
+
+-- 14. Categorize salary
+DECLARE
+    salary NUMBER := 4800;
+BEGIN
+    IF salary > 5000 THEN
+        DBMS_OUTPUT.PUT_LINE('High');
+    ELSIF salary >= 3000 THEN
+        DBMS_OUTPUT.PUT_LINE('Medium');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Low');
+    END IF;
+END;
+/
+
+-- 15. Bonus based on job role
+DECLARE
+    job VARCHAR2(20) := 'MANAGER';
+    bonus NUMBER;
+BEGIN
+    IF job = 'MANAGER' THEN
+        bonus := 1000;
+    ELSIF job = 'CLERK' THEN
+        bonus := 500;
+    ELSE
+        bonus := 200;
+    END IF;
+    DBMS_OUTPUT.PUT_LINE('Bonus: ' || bonus);
+END;
+/
+
+-- 16. CASE: day of week
+DECLARE
+    day_num NUMBER := 3;
+BEGIN
+    CASE day_num
+        WHEN 1 THEN DBMS_OUTPUT.PUT_LINE('Monday');
+        WHEN 2 THEN DBMS_OUTPUT.PUT_LINE('Tuesday');
+        WHEN 3 THEN DBMS_OUTPUT.PUT_LINE('Wednesday');
+        WHEN 4 THEN DBMS_OUTPUT.PUT_LINE('Thursday');
+        WHEN 5 THEN DBMS_OUTPUT.PUT_LINE('Friday');
+        WHEN 6 THEN DBMS_OUTPUT.PUT_LINE('Saturday');
+        WHEN 7 THEN DBMS_OUTPUT.PUT_LINE('Sunday');
+        ELSE DBMS_OUTPUT.PUT_LINE('Invalid Day');
+    END CASE;
+END;
+/
+
+-- 17. CASE: assign grades based on marks
+DECLARE
+    marks NUMBER := 85;
+BEGIN
+    CASE
+        WHEN marks >= 80 THEN DBMS_OUTPUT.PUT_LINE('A');
+        WHEN marks >= 60 THEN DBMS_OUTPUT.PUT_LINE('B');
+        WHEN marks >= 40 THEN DBMS_OUTPUT.PUT_LINE('C');
+        ELSE DBMS_OUTPUT.PUT_LINE('Fail');
+    END CASE;
+END;
+/
+
+-- 18. CASE: even or odd
+DECLARE
+    num NUMBER := 11;
+BEGIN
+    CASE MOD(num,2)
+        WHEN 0 THEN DBMS_OUTPUT.PUT_LINE('Even');
+        ELSE DBMS_OUTPUT.PUT_LINE('Odd');
+    END CASE;
+END;
+/
+
+-- 19. CASE: department name based on department id
+DECLARE
+    dept_id NUMBER := 20;
+BEGIN
+    CASE dept_id
+        WHEN 10 THEN DBMS_OUTPUT.PUT_LINE('Accounting');
+        WHEN 20 THEN DBMS_OUTPUT.PUT_LINE('Research');
+        WHEN 30 THEN DBMS_OUTPUT.PUT_LINE('Sales');
+        ELSE DBMS_OUTPUT.PUT_LINE('Unknown Department');
+    END CASE;
+END;
+/
+
+-- 20. CASE: categorize salary
+DECLARE
+    salary NUMBER := 4000;
+BEGIN
+    CASE 
+        WHEN salary > 5000 THEN DBMS_OUTPUT.PUT_LINE('High');
+        WHEN salary >= 3000 THEN DBMS_OUTPUT.PUT_LINE('Medium');
+        ELSE DBMS_OUTPUT.PUT_LINE('Low');
+    END CASE;
+END;
+/
+
+-- 21. Print numbers 1 to 10 but skip 5
+BEGIN
+    FOR i IN 1..10 LOOP
+        IF i = 5 THEN
+            CONTINUE;
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+
+-- 22. Display odd numbers 1–20
+BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,2) = 0 THEN
+            CONTINUE;
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+
+-- 23. Skip multiples of 3 (1–15)
+BEGIN
+    FOR i IN 1..15 LOOP
+        IF MOD(i,3)=0 THEN
+            CONTINUE;
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+
+-- 24. Skip employees with salary < 2000
+DECLARE
+    CURSOR emp_cur IS SELECT SAL, ENAME FROM EMP;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        IF emp_rec.SAL < 2000 THEN
+            CONTINUE;
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ': ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 25. Exit loop when number reaches 5
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        EXIT WHEN i = 5;
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+-- 26. Print numbers until sum exceeds 50
+DECLARE
+    sum_val NUMBER := 0;
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        sum_val := sum_val + i;
+        DBMS_OUTPUT.PUT_LINE('i=' || i || ', Sum=' || sum_val);
+        EXIT WHEN sum_val > 50;
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+-- 27. Exit loop when negative number encountered
+DECLARE
+    nums SYS.ODCINUMBERLIST := SYS.ODCINUMBERLIST(5,7,-3,10);
+BEGIN
+    FOR i IN 1..nums.COUNT LOOP
+        EXIT WHEN nums(i) < 0;
+        DBMS_OUTPUT.PUT_LINE(nums(i));
+    END LOOP;
+END;
+/
+
+-- 28. EXIT WHEN loop stop condition
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+        EXIT WHEN i > 3;
+    END LOOP;
+END;
+/
+
+-- 29. IF-ELSIF and CASE together
+DECLARE
+    num NUMBER := 7;
+BEGIN
+    IF num < 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Negative');
+    ELSIF num = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Zero');
+    ELSE
+        CASE MOD(num,2)
+            WHEN 0 THEN DBMS_OUTPUT.PUT_LINE('Positive Even');
+            ELSE DBMS_OUTPUT.PUT_LINE('Positive Odd');
+        END CASE;
+    END IF;
+END;
+/
+
+-- 30. Process employee salaries using LOOP, CONTINUE, EXIT
+DECLARE
+    CURSOR emp_cur IS SELECT ENAME, SAL FROM EMP;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        IF emp_rec.SAL < 2000 THEN
+            CONTINUE;
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ': ' || emp_rec.SAL);
+        IF emp_rec.SAL > 5000 THEN
+            EXIT;
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 31. Simulate login system
+DECLARE
+    username VARCHAR2(20) := 'USER1';
+    password VARCHAR2(20) := 'pass123';
+BEGIN
+    IF username = 'USER1' AND password = 'pass123' THEN
+        DBMS_OUTPUT.PUT_LINE('Login Successful');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Login Failed');
+    END IF;
+END;
+/
+</pre>
+</section>
+
+<section id="loops">
+<h2>PL/SQL Loops</h2>
+<pre>
+-- 1. Print numbers 1 to 5 using SIMPLE LOOP
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+        EXIT WHEN i > 5;
+    END LOOP;
+END;
+/
+
+-- 2. Display numbers 10 to 1 in reverse
+DECLARE
+    i NUMBER := 10;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i - 1;
+        EXIT WHEN i < 1;
+    END LOOP;
+END;
+/
+
+-- 3. Calculate sum of numbers 1 to 10
+DECLARE
+    i NUMBER := 1;
+    sum_val NUMBER := 0;
+BEGIN
+    LOOP
+        sum_val := sum_val + i;
+        i := i + 1;
+        EXIT WHEN i > 10;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Sum = ' || sum_val);
+END;
+/
+
+-- 4. Multiplication table of a number (say 5)
+DECLARE
+    n NUMBER := 5;
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(n || ' * ' || i || ' = ' || n*i);
+        i := i + 1;
+        EXIT WHEN i > 10;
+    END LOOP;
+END;
+/
+
+-- 5. Print even numbers between 1 and 20
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        IF MOD(i,2) = 0 THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+        i := i + 1;
+        EXIT WHEN i > 20;
+    END LOOP;
+END;
+/
+
+-- 6. Exit loop when number > 50
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 5;
+        EXIT WHEN i > 50;
+    END LOOP;
+END;
+/
+
+-- 7. Print numbers 1 to 10 using WHILE LOOP
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    WHILE i <= 10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+-- 8. Factorial using WHILE LOOP
+DECLARE
+    n NUMBER := 5;
+    fact NUMBER := 1;
+BEGIN
+    WHILE n > 0 LOOP
+        fact := fact * n;
+        n := n - 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Factorial = ' || fact);
+END;
+/
+
+-- 9. Sum of digits of a number
+DECLARE
+    num NUMBER := 1234;
+    sum_val NUMBER := 0;
+    digit NUMBER;
+BEGIN
+    WHILE num > 0 LOOP
+        digit := MOD(num,10);
+        sum_val := sum_val + digit;
+        num := TRUNC(num/10);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Sum of digits = ' || sum_val);
+END;
+/
+
+-- 10. Reverse a number
+DECLARE
+    num NUMBER := 1234;
+    rev NUMBER := 0;
+    digit NUMBER;
+BEGIN
+    WHILE num > 0 LOOP
+        digit := MOD(num,10);
+        rev := rev*10 + digit;
+        num := TRUNC(num/10);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Reversed = ' || rev);
+END;
+/
+
+-- 11. Check palindrome
+DECLARE
+    num NUMBER := 1221;
+    orig NUMBER := num;
+    rev NUMBER := 0;
+    digit NUMBER;
+BEGIN
+    WHILE num > 0 LOOP
+        digit := MOD(num,10);
+        rev := rev*10 + digit;
+        num := TRUNC(num/10);
+    END LOOP;
+    IF rev = orig THEN
+        DBMS_OUTPUT.PUT_LINE('Palindrome');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Not Palindrome');
+    END IF;
+END;
+/
+
+-- 12. Fibonacci series up to N terms
+DECLARE
+    n NUMBER := 10;
+    a NUMBER := 0;
+    b NUMBER := 1;
+    c NUMBER;
+    i NUMBER := 2;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(a);
+    DBMS_OUTPUT.PUT_LINE(b);
+    WHILE i < n LOOP
+        c := a + b;
+        DBMS_OUTPUT.PUT_LINE(c);
+        a := b;
+        b := c;
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+-- 13. Numbers 1 to 10 using FOR LOOP
+BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+
+-- 14. Numbers in reverse using FOR LOOP
+BEGIN
+    FOR i IN REVERSE 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i);
+    END LOOP;
+END;
+/
+
+-- 15. Sum of first 10 natural numbers
+DECLARE
+    sum_val NUMBER := 0;
+BEGIN
+    FOR i IN 1..10 LOOP
+        sum_val := sum_val + i;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Sum = ' || sum_val);
+END;
+/
+
+-- 16. Multiplication table of 5 using FOR LOOP
+BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE('5 * ' || i || ' = ' || 5*i);
+    END LOOP;
+END;
+/
+
+-- 17. Squares of numbers 1 to 10
+BEGIN
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE(i || '^2 = ' || i*i);
+    END LOOP;
+END;
+/
+
+-- 18. Odd numbers 1 to 50
+BEGIN
+    FOR i IN 1..50 LOOP
+        IF MOD(i,2) = 1 THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 19. Print pattern: *, **, ***, ****
+BEGIN
+    FOR i IN 1..4 LOOP
+        FOR j IN 1..i LOOP
+            DBMS_OUTPUT.PUT('*');
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE('');
+    END LOOP;
+END;
+/
+
+-- 20. Multiplication tables 1 to 5 (nested loops)
+BEGIN
+    FOR i IN 1..5 LOOP
+        FOR j IN 1..10 LOOP
+            DBMS_OUTPUT.PUT_LINE(i || ' * ' || j || ' = ' || i*j);
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE('----------------');
+    END LOOP;
+END;
+/
+
+-- 21. Number pattern: 1,12,123,1234
+BEGIN
+    FOR i IN 1..4 LOOP
+        FOR j IN 1..i LOOP
+            DBMS_OUTPUT.PUT(j);
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE('');
+    END LOOP;
+END;
+/
+
+-- 22. Skip multiples of 4
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        EXIT WHEN i > 20;
+        IF MOD(i,4)=0 THEN
+            i := i + 1;
+            CONTINUE;
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+-- 23. Stop when sum > 100
+DECLARE
+    i NUMBER := 1;
+    sum_val NUMBER := 0;
+BEGIN
+    LOOP
+        sum_val := sum_val + i;
+        DBMS_OUTPUT.PUT_LINE('i=' || i || ', sum=' || sum_val);
+        EXIT WHEN sum_val > 100;
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+-- 24. Exit when number divisible by 7
+DECLARE
+    i NUMBER := 1;
+BEGIN
+    LOOP
+        IF MOD(i,7)=0 THEN
+            EXIT;
+        END IF;
+        DBMS_OUTPUT.PUT_LINE(i);
+        i := i + 1;
+    END LOOP;
+END;
+/
+
+-- 25. Loop through employee IDs from EMP table
+BEGIN
+    FOR emp_rec IN (SELECT EMPNO, ENAME FROM EMP) LOOP
+        DBMS_OUTPUT.PUT_LINE('EmpID: ' || emp_rec.EMPNO || ', Name: ' || emp_rec.ENAME);
+    END LOOP;
+END;
+/
+
+-- 26. Increase salary by 10% using loop
+BEGIN
+    FOR emp_rec IN (SELECT EMPNO, SAL FROM EMP) LOOP
+        UPDATE EMP
+        SET SAL = SAL * 1.1
+        WHERE EMPNO = emp_rec.EMPNO;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 27. Display employees with salary > 3000
+BEGIN
+    FOR emp_rec IN (SELECT ENAME, SAL FROM EMP) LOOP
+        IF emp_rec.SAL > 3000 THEN
+            DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ': ' || emp_rec.SAL);
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 28. Count total number of employees
+DECLARE
+    cnt NUMBER := 0;
+BEGIN
+    FOR emp_rec IN (SELECT 1 FROM EMP) LOOP
+        cnt := cnt + 1;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Total employees = ' || cnt);
+END;
+/
+
+-- 29. Using all three loops in one program
+DECLARE
+    i NUMBER := 1;
+    j NUMBER := 5;
+    sum_val NUMBER := 0;
+BEGIN
+    -- SIMPLE LOOP
+    LOOP
+        DBMS_OUTPUT.PUT_LINE('Simple Loop: ' || i);
+        i := i + 1;
+        EXIT WHEN i > 3;
+    END LOOP;
+
+    -- WHILE LOOP
+    WHILE j > 0 LOOP
+        DBMS_OUTPUT.PUT_LINE('While Loop: ' || j);
+        j := j - 1;
+    END LOOP;
+
+    -- FOR LOOP
+    FOR k IN 1..5 LOOP
+        sum_val := sum_val + k;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Sum from For Loop: ' || sum_val);
+END;
+/
+
+-- 30. Generate prime numbers 1 to 50
+DECLARE
+    is_prime BOOLEAN;
+BEGIN
+    FOR i IN 2..50 LOOP
+        is_prime := TRUE;
+        FOR j IN 2..TRUNC(SQRT(i)) LOOP
+            IF MOD(i,j) = 0 THEN
+                is_prime := FALSE;
+                EXIT;
+            END IF;
+        END LOOP;
+        IF is_prime THEN
+            DBMS_OUTPUT.PUT_LINE(i);
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 31. Simulate ATM withdrawal attempts (3 attempts)
+DECLARE
+    correct_pin NUMBER := 1234;
+    input_pin NUMBER;
+    attempts NUMBER := 0;
+BEGIN
+    LOOP
+        attempts := attempts + 1;
+        input_pin := 1234; -- Assume user input here
+        IF input_pin = correct_pin THEN
+            DBMS_OUTPUT.PUT_LINE('Withdrawal Successful');
+            EXIT;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Incorrect PIN, attempt ' || attempts);
+        END IF;
+        EXIT WHEN attempts = 3;
+    END LOOP;
+END;
+/
+
+-- 32. Sum of even and odd numbers separately
+DECLARE
+    even_sum NUMBER := 0;
+    odd_sum NUMBER := 0;
+BEGIN
+    FOR i IN 1..20 LOOP
+        IF MOD(i,2)=0 THEN
+            even_sum := even_sum + i;
+        ELSE
+            odd_sum := odd_sum + i;
+        END IF;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Even sum = ' || even_sum);
+    DBMS_OUTPUT.PUT_LINE('Odd sum = ' || odd_sum);
+END;
+/
+</pre>
+</section>
+
+<section id="types">
+<h2>%TYPE & %ROWTYPE</h2>
+<pre>
+
+-- 1. Fetch employee name for empno = 7369
+DECLARE
+    v_ename EMP.ENAME%TYPE;
+BEGIN
+    SELECT ENAME INTO v_ename
+    FROM EMP
+    WHERE EMPNO = 7369;
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_ename);
+END;
+/
+
+-- 2. Retrieve salary of an employee
+DECLARE
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal
+    FROM EMP
+    WHERE EMPNO = 7369;
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || v_sal);
+END;
+/
+
+-- 3. Fetch employee name and job
+DECLARE
+    v_ename EMP.ENAME%TYPE;
+    v_job EMP.JOB%TYPE;
+BEGIN
+    SELECT ENAME, JOB INTO v_ename, v_job
+    FROM EMP
+    WHERE EMPNO = 7369;
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_ename || ', Job: ' || v_job);
+END;
+/
+
+-- 4. Display department number
+DECLARE
+    v_deptno EMP.DEPTNO%TYPE;
+BEGIN
+    SELECT DEPTNO INTO v_deptno
+    FROM EMP
+    WHERE EMPNO = 7369;
+    DBMS_OUTPUT.PUT_LINE('Department No: ' || v_deptno);
+END;
+/
+
+-- 5. Fetch hiredate
+DECLARE
+    v_hiredate EMP.HIREDATE%TYPE;
+BEGIN
+    SELECT HIREDATE INTO v_hiredate
+    FROM EMP
+    WHERE EMPNO = 7369;
+    DBMS_OUTPUT.PUT_LINE('Hire Date: ' || v_hiredate);
+END;
+/
+
+-- 6. Count total employees
+DECLARE
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM EMP;
+    DBMS_OUTPUT.PUT_LINE('Total Employees: ' || v_count);
+END;
+/
+
+-- 7. Declare variable using %TYPE based on EMP.SAL
+DECLARE
+    v_salary EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_salary
+    FROM EMP
+    WHERE EMPNO = 7369;
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || v_salary);
+END;
+/
+
+-- 8. Declare variables for employee name and job using %TYPE
+DECLARE
+    v_name EMP.ENAME%TYPE;
+    v_job EMP.JOB%TYPE;
+BEGIN
+    v_name := 'SCOTT';
+    v_job := 'ANALYST';
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_name || ', Job: ' || v_job);
+END;
+/
+
+-- 9. Fetch salary using %TYPE variable
+DECLARE
+    v_salary EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_salary
+    FROM EMP
+    WHERE EMPNO = 7369;
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || v_salary);
+END;
+/
+
+-- 10. Calculate annual salary using %TYPE
+DECLARE
+    v_salary EMP.SAL%TYPE;
+    v_annual_salary NUMBER;
+BEGIN
+    SELECT SAL INTO v_salary
+    FROM EMP
+    WHERE EMPNO = 7369;
+    v_annual_salary := v_salary * 12;
+    DBMS_OUTPUT.PUT_LINE('Annual Salary: ' || v_annual_salary);
+END;
+/
+
+-- 11. Update salary using %TYPE
+DECLARE
+    v_salary EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_salary
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    UPDATE EMP
+    SET SAL = v_salary + 500
+    WHERE EMPNO = 7369;
+
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Updated Salary for 7369');
+END;
+/
+
+-- 12. Variable from DEPT table
+DECLARE
+    v_dname DEPT.DNAME%TYPE;
+BEGIN
+    SELECT DNAME INTO v_dname
+    FROM DEPT
+    WHERE DEPTNO = 10;
+    DBMS_OUTPUT.PUT_LINE('Dept Name: ' || v_dname);
+END;
+/
+
+-- 13. Declare record using %ROWTYPE
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    NULL; -- Just declaration example
+END;
+/
+
+-- 14. Fetch complete employee record
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp_rec
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_emp_rec.ENAME || ', Job: ' || v_emp_rec.JOB || ', Salary: ' || v_emp_rec.SAL);
+END;
+/
+
+-- 15. Display employee name, salary, and job using %ROWTYPE
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp_rec
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_emp_rec.ENAME || ', Job: ' || v_emp_rec.JOB || ', Salary: ' || v_emp_rec.SAL);
+END;
+/
+
+-- 16. Update salary using %ROWTYPE variable
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp_rec
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    v_emp_rec.SAL := v_emp_rec.SAL + 1000;
+
+    UPDATE EMP
+    SET SAL = v_emp_rec.SAL
+    WHERE EMPNO = v_emp_rec.EMPNO;
+
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Salary updated using %ROWTYPE');
+END;
+/
+
+-- 17. Insert record using %ROWTYPE
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    v_emp_rec.EMPNO := 9999;
+    v_emp_rec.ENAME := 'TEST';
+    v_emp_rec.JOB := 'CLERK';
+    v_emp_rec.MGR := 7839;
+    v_emp_rec.HIREDATE := SYSDATE;
+    v_emp_rec.SAL := 2000;
+    v_emp_rec.COMM := NULL;
+    v_emp_rec.DEPTNO := 10;
+
+    INSERT INTO EMP VALUES v_emp_rec;
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('Inserted new employee using %ROWTYPE');
+END;
+/
+
+-- 18. Fetch employee details based on empno
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp_rec
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    DBMS_OUTPUT.PUT_LINE('Emp: ' || v_emp_rec.EMPNO || ', Name: ' || v_emp_rec.ENAME || ', Job: ' || v_emp_rec.JOB);
+END;
+/
+
+-- 19. SELECT, %TYPE, and output together
+DECLARE
+    v_name EMP.ENAME%TYPE;
+    v_salary EMP.SAL%TYPE;
+BEGIN
+    SELECT ENAME, SAL INTO v_name, v_salary
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_name || ', Salary: ' || v_salary);
+END;
+/
+
+-- 20. Fetch employee details using %ROWTYPE and display all columns
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp_rec
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    DBMS_OUTPUT.PUT_LINE(v_emp_rec.EMPNO || ', ' || v_emp_rec.ENAME || ', ' || v_emp_rec.JOB || ', ' || v_emp_rec.MGR || ', ' || v_emp_rec.HIREDATE || ', ' || v_emp_rec.SAL || ', ' || v_emp_rec.COMM || ', ' || v_emp_rec.DEPTNO);
+END;
+/
+
+-- 21. Calculate bonus 10% of salary using %TYPE
+DECLARE
+    v_salary EMP.SAL%TYPE;
+    v_bonus NUMBER;
+BEGIN
+    SELECT SAL INTO v_salary
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    v_bonus := v_salary * 0.10;
+    DBMS_OUTPUT.PUT_LINE('Bonus: ' || v_bonus);
+END;
+/
+
+-- 22. Fetch record and update salary if < 2000
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp_rec
+    FROM EMP
+    WHERE EMPNO = 7369;
+
+    IF v_emp_rec.SAL < 2000 THEN
+        v_emp_rec.SAL := v_emp_rec.SAL + 500;
+        UPDATE EMP SET SAL = v_emp_rec.SAL WHERE EMPNO = v_emp_rec.EMPNO;
+        COMMIT;
+        DBMS_OUTPUT.PUT_LINE('Salary increased');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Salary is sufficient');
+    END IF;
+END;
+/
+
+-- 23. Fetch highest salary using SELECT INTO and %TYPE
+DECLARE
+    v_max_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT MAX(SAL) INTO v_max_sal
+    FROM EMP;
+
+    DBMS_OUTPUT.PUT_LINE('Highest Salary: ' || v_max_sal);
+END;
+/
+
+-- 24. Fetch employee with highest salary using %ROWTYPE
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp_rec
+    FROM EMP
+    WHERE SAL = (SELECT MAX(SAL) FROM EMP);
+
+    DBMS_OUTPUT.PUT_LINE('Emp: ' || v_emp_rec.ENAME || ', Salary: ' || v_emp_rec.SAL);
+END;
+/
+
+-- 25. Display employees in specific department using loop and %ROWTYPE
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    FOR emp_cur IN (SELECT * FROM EMP WHERE DEPTNO = 10) LOOP
+        v_emp_rec := emp_cur;
+        DBMS_OUTPUT.PUT_LINE('Name: ' || v_emp_rec.ENAME || ', Salary: ' || v_emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 26. Increase salary department-wise using %TYPE
+DECLARE
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    FOR emp_cur IN (SELECT * FROM EMP WHERE DEPTNO = 10) LOOP
+        v_sal := emp_cur.SAL + 500;
+        UPDATE EMP SET SAL = v_sal WHERE EMPNO = emp_cur.EMPNO;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 27. Fetch and display all employees using cursor and %ROWTYPE
+DECLARE
+    CURSOR emp_cur IS SELECT * FROM EMP;
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_emp_rec;
+        EXIT WHEN emp_cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(v_emp_rec.EMPNO || ', ' || v_emp_rec.ENAME || ', ' || v_emp_rec.SAL);
+    END LOOP;
+    CLOSE emp_cur;
+END;
+/
+
+-- 28. Copy data from EMP to another table using %ROWTYPE
+DECLARE
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    FOR emp_cur IN (SELECT * FROM EMP) LOOP
+        v_emp_rec := emp_cur;
+        INSERT INTO EMP_COPY VALUES v_emp_rec; -- assume EMP_COPY structure same as EMP
+    END LOOP;
+    COMMIT;
+END;
+/
+</pre>
+</section>
+
+<section id="cursors">
+<h2>Cursors</h2>
+<pre>
+
+-- 1. Explicit cursor: fetch all employee names
+DECLARE
+    CURSOR emp_cur IS SELECT ENAME FROM EMP;
+    v_name EMP.ENAME%TYPE;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_name;
+        EXIT WHEN emp_cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Employee: ' || v_name);
+    END LOOP;
+    CLOSE emp_cur;
+END;
+/
+
+-- 2. Fetch employee name and salary
+DECLARE
+    CURSOR emp_cur IS SELECT ENAME, SAL FROM EMP;
+    v_name EMP.ENAME%TYPE;
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_name, v_sal;
+        EXIT WHEN emp_cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Name: ' || v_name || ', Salary: ' || v_sal);
+    END LOOP;
+    CLOSE emp_cur;
+END;
+/
+
+-- 3. Display employees with salary > 3000
+DECLARE
+    CURSOR emp_cur IS SELECT ENAME, SAL FROM EMP;
+    v_name EMP.ENAME%TYPE;
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_name, v_sal;
+        EXIT WHEN emp_cur%NOTFOUND;
+        IF v_sal > 3000 THEN
+            DBMS_OUTPUT.PUT_LINE('High Salary Employee: ' || v_name || ', ' || v_sal);
+        END IF;
+    END LOOP;
+    CLOSE emp_cur;
+END;
+/
+
+-- 4. Count number of employees using cursor
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO FROM EMP;
+    v_empno EMP.EMPNO%TYPE;
+    v_count NUMBER := 0;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_empno;
+        EXIT WHEN emp_cur%NOTFOUND;
+        v_count := v_count + 1;
+    END LOOP;
+    CLOSE emp_cur;
+    DBMS_OUTPUT.PUT_LINE('Total Employees: ' || v_count);
+END;
+/
+
+-- 5. Calculate total salary using cursor
+DECLARE
+    CURSOR emp_cur IS SELECT SAL FROM EMP;
+    v_sal EMP.SAL%TYPE;
+    v_total NUMBER := 0;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_sal;
+        EXIT WHEN emp_cur%NOTFOUND;
+        v_total := v_total + v_sal;
+    END LOOP;
+    CLOSE emp_cur;
+    DBMS_OUTPUT.PUT_LINE('Total Salary: ' || v_total);
+END;
+/
+
+-- 6. Fetch records using OPEN, FETCH, CLOSE
+DECLARE
+    CURSOR emp_cur IS SELECT ENAME, JOB, SAL FROM EMP;
+    v_name EMP.ENAME%TYPE;
+    v_job EMP.JOB%TYPE;
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_name, v_job, v_sal;
+        EXIT WHEN emp_cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(v_name || ' - ' || v_job || ' - ' || v_sal);
+    END LOOP;
+    CLOSE emp_cur;
+END;
+/
+
+-- 7. Display all employee records using cursor FOR LOOP
+DECLARE
+    CURSOR emp_cur IS SELECT * FROM EMP;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.EMPNO || ', ' || emp_rec.ENAME || ', ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 8. Display employee names and jobs using cursor FOR LOOP
+BEGIN
+    FOR emp_rec IN (SELECT ENAME, JOB FROM EMP) LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.JOB);
+    END LOOP;
+END;
+/
+
+-- 9. Employees from department 10 using cursor FOR LOOP + Condition
+BEGIN
+    FOR emp_rec IN (SELECT * FROM EMP) LOOP
+        IF emp_rec.DEPTNO = 10 THEN
+            DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - Dept: ' || emp_rec.DEPTNO);
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 10. Calculate total salary using cursor FOR LOOP
+DECLARE
+    v_total NUMBER := 0;
+BEGIN
+    FOR emp_rec IN (SELECT SAL FROM EMP) LOOP
+        v_total := v_total + emp_rec.SAL;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Total Salary: ' || v_total);
+END;
+/
+
+-- 11. Employees with salary greater than average
+DECLARE
+    v_avg NUMBER;
+BEGIN
+    SELECT AVG(SAL) INTO v_avg FROM EMP;
+
+    FOR emp_rec IN (SELECT ENAME, SAL FROM EMP) LOOP
+        IF emp_rec.SAL > v_avg THEN
+            DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 12. Parameterized cursor for department
+DECLARE
+    CURSOR emp_cur(p_deptno NUMBER) IS
+        SELECT ENAME, SAL FROM EMP WHERE DEPTNO = p_deptno;
+BEGIN
+    FOR emp_rec IN emp_cur(10) LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 13. Parameterized cursor: salary greater than given value
+DECLARE
+    CURSOR emp_cur(p_min_sal NUMBER) IS
+        SELECT ENAME, SAL FROM EMP WHERE SAL > p_min_sal;
+BEGIN
+    FOR emp_rec IN emp_cur(3000) LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 14. Employees based on job role using parameterized cursor
+DECLARE
+    CURSOR emp_cur(p_job VARCHAR2) IS
+        SELECT ENAME, SAL FROM EMP WHERE JOB = p_job;
+BEGIN
+    FOR emp_rec IN emp_cur('CLERK') LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 15. Total salary of a department using parameterized cursor
+DECLARE
+    CURSOR emp_cur(p_deptno NUMBER) IS
+        SELECT SAL FROM EMP WHERE DEPTNO = p_deptno;
+    v_total NUMBER := 0;
+BEGIN
+    FOR emp_rec IN emp_cur(10) LOOP
+        v_total := v_total + emp_rec.SAL;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Total Salary Dept 10: ' || v_total);
+END;
+/
+
+-- 16. Cursor with multiple parameters: deptno and job
+DECLARE
+    CURSOR emp_cur(p_deptno NUMBER, p_job VARCHAR2) IS
+        SELECT ENAME, SAL FROM EMP WHERE DEPTNO = p_deptno AND JOB = p_job;
+BEGIN
+    FOR emp_rec IN emp_cur(10, 'CLERK') LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 17. Updatable cursor to increase salary using FOR UPDATE
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO, SAL FROM EMP FOR UPDATE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        UPDATE EMP SET SAL = SAL + 500 WHERE CURRENT OF emp_cur;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 18. Increase salary by 10% using WHERE CURRENT OF
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO, SAL FROM EMP FOR UPDATE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        UPDATE EMP SET SAL = SAL * 1.10 WHERE CURRENT OF emp_cur;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 19. Delete employees with salary < 2000 using cursor
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO, SAL FROM EMP WHERE SAL < 2000 FOR UPDATE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        DELETE FROM EMP WHERE CURRENT OF emp_cur;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 20. Update job using updatable cursor
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO, JOB FROM EMP FOR UPDATE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        UPDATE EMP SET JOB = 'ANALYST' WHERE CURRENT OF emp_cur;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 21. Modify values row-by-row using cursor
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO, SAL FROM EMP FOR UPDATE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        IF emp_rec.SAL < 3000 THEN
+            UPDATE EMP SET SAL = SAL + 300 WHERE CURRENT OF emp_cur;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 22. Cursor with IF to display high salary employees
+DECLARE
+    CURSOR emp_cur IS SELECT ENAME, SAL FROM EMP;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        IF emp_rec.SAL > 5000 THEN
+            DBMS_OUTPUT.PUT_LINE('High Salary: ' || emp_rec.ENAME || ' - ' || emp_rec.SAL);
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 23. Cursor FOR LOOP + bonus calculation
+DECLARE
+    v_bonus NUMBER;
+BEGIN
+    FOR emp_rec IN (SELECT ENAME, SAL FROM EMP) LOOP
+        v_bonus := emp_rec.SAL * 0.10;
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - Bonus: ' || v_bonus);
+    END LOOP;
+END;
+/
+
+-- 24. Parameterized cursor + loop multiple departments
+DECLARE
+    CURSOR emp_cur(p_deptno NUMBER) IS SELECT ENAME, SAL FROM EMP WHERE DEPTNO = p_deptno;
+BEGIN
+    FOR d IN 10..30 LOOP
+        DBMS_OUTPUT.PUT_LINE('Dept: ' || d);
+        FOR emp_rec IN emp_cur(d) LOOP
+            DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+        END LOOP;
+    END LOOP;
+END;
+/
+
+-- 25. Update + display using updatable cursor
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO, SAL FROM EMP FOR UPDATE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        UPDATE EMP SET SAL = SAL + 200 WHERE CURRENT OF emp_cur;
+        DBMS_OUTPUT.PUT_LINE('Updated ' || emp_rec.EMP_NO || ' to ' || (emp_rec.SAL + 200));
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 26. Display top 3 highest paid employees
+BEGIN
+    FOR emp_rec IN (SELECT ENAME, SAL FROM EMP ORDER BY SAL DESC FETCH FIRST 3 ROWS ONLY) LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- 27. Simulate pagination (fetch limited rows)
+DECLARE
+    CURSOR emp_cur IS SELECT ENAME, SAL FROM EMP ORDER BY EMPNO;
+    v_count NUMBER := 0;
+BEGIN
+    OPEN emp_cur;
+    LOOP
+        FETCH emp_cur INTO v_name, v_sal;
+        EXIT WHEN emp_cur%NOTFOUND OR v_count = 5;
+        DBMS_OUTPUT.PUT_LINE(v_name || ' - ' || v_sal);
+        v_count := v_count + 1;
+    END LOOP;
+    CLOSE emp_cur;
+END;
+/
+
+-- 28. Copy EMP data to another table using cursor
+DECLARE
+    CURSOR emp_cur IS SELECT * FROM EMP;
+    v_emp_rec EMP%ROWTYPE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        v_emp_rec := emp_rec;
+        INSERT INTO EMP_COPY VALUES v_emp_rec; -- assume EMP_COPY has same structure
+    END LOOP;
+    COMMIT;
+END;
+/
+
+-- 29. Department-wise employee count using cursor
+DECLARE
+    CURSOR emp_cur IS SELECT DEPTNO, EMPNO FROM EMP;
+    v_dept_emp_count NUMBER := 0;
+    v_current_dept EMP.DEPTNO%TYPE := NULL;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        IF v_current_dept IS NULL OR emp_rec.DEPTNO != v_current_dept THEN
+            IF v_current_dept IS NOT NULL THEN
+                DBMS_OUTPUT.PUT_LINE('Dept ' || v_current_dept || ' Count: ' || v_dept_emp_count);
+            END IF;
+            v_current_dept := emp_rec.DEPTNO;
+            v_dept_emp_count := 1;
+        ELSE
+            v_dept_emp_count := v_dept_emp_count + 1;
+        END IF;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Dept ' || v_current_dept || ' Count: ' || v_dept_emp_count);
+END;
+/
+
+-- 30. Process employees with job-based salary increment
+DECLARE
+    CURSOR emp_cur IS SELECT EMPNO, JOB, SAL FROM EMP FOR UPDATE;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        IF emp_rec.JOB = 'CLERK' THEN
+            UPDATE EMP SET SAL = SAL + 500 WHERE CURRENT OF emp_cur;
+        ELSIF emp_rec.JOB = 'ANALYST' THEN
+            UPDATE EMP SET SAL = SAL + 1000 WHERE CURRENT OF emp_cur;
+        ELSE
+            UPDATE EMP SET SAL = SAL + 200 WHERE CURRENT OF emp_cur;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+/
+</pre>
+</section>
+
+<section id="procedures">
+<h2>Stored Procedures</h2>
+<pre>
+-- ==========================================
+-- 1. Basic Procedure – Hello Oracle
+-- ==========================================
+CREATE OR REPLACE PROCEDURE hello_oracle AS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Hello Oracle');
+END;
+/
+
+-- ==========================================
+-- 2. Procedure: Display Employee Name by Empno
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_emp_name(p_empno IN EMP.EMPNO%TYPE) AS
+    v_name EMP.ENAME%TYPE;
+BEGIN
+    SELECT ENAME INTO v_name FROM EMP WHERE EMPNO = p_empno;
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_name);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No employee found with EMPNO ' || p_empno);
+END;
+/
+
+-- ==========================================
+-- 3. Procedure: Display Employee Salary
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_emp_salary(p_empno IN EMP.EMPNO%TYPE) AS
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal FROM EMP WHERE EMPNO = p_empno;
+    DBMS_OUTPUT.PUT_LINE('Salary: ' || v_sal);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee not found.');
+END;
+/
+
+-- ==========================================
+-- 4. Procedure: Display all employees using cursor
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_all_emps AS
+    CURSOR emp_cur IS SELECT ENAME, SAL, JOB FROM EMP;
+BEGIN
+    FOR emp_rec IN emp_cur LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.JOB || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- ==========================================
+-- 5. Procedure: Display department details
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_dept_details AS
+BEGIN
+    FOR dept_rec IN (SELECT * FROM DEPT) LOOP
+        DBMS_OUTPUT.PUT_LINE('Deptno: ' || dept_rec.DEPTNO || ', Name: ' || dept_rec.DNAME || ', Loc: ' || dept_rec.LOC);
+    END LOOP;
+END;
+/
+
+-- ==========================================
+-- 6. Procedure with IN parameter: Display employee details
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_emp_details(p_empno IN EMP.EMPNO%TYPE) AS
+    v_emp EMP%ROWTYPE;
+BEGIN
+    SELECT * INTO v_emp FROM EMP WHERE EMPNO = p_empno;
+    DBMS_OUTPUT.PUT_LINE('Empno: ' || v_emp.EMPNO || ', Name: ' || v_emp.ENAME || ', Job: ' || v_emp.JOB || ', Sal: ' || v_emp.SAL);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Employee not found.');
+END;
+/
+
+-- ==========================================
+-- 7. Procedure with IN parameter: Display employees by dept
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_dept_emps(p_deptno IN EMP.DEPTNO%TYPE) AS
+BEGIN
+    FOR emp_rec IN (SELECT ENAME, JOB, SAL FROM EMP WHERE DEPTNO = p_deptno) LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.JOB || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- ==========================================
+-- 8. Procedure with IN parameter: Employees earning more than given salary
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_high_earners(p_min_sal IN EMP.SAL%TYPE) AS
+BEGIN
+    FOR emp_rec IN (SELECT ENAME, SAL FROM EMP WHERE SAL > p_min_sal) LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- ==========================================
+-- 9. Procedure with OUT parameter: Return employee salary
+-- ==========================================
+CREATE OR REPLACE PROCEDURE get_emp_salary(p_empno IN EMP.EMPNO%TYPE, p_sal OUT EMP.SAL%TYPE) AS
+BEGIN
+    SELECT SAL INTO p_sal FROM EMP WHERE EMPNO = p_empno;
+END;
+/
+
+-- ==========================================
+-- 10. Procedure with IN OUT parameter: Update salary
+-- ==========================================
+CREATE OR REPLACE PROCEDURE update_salary(p_empno IN EMP.EMPNO%TYPE, p_new_sal IN OUT EMP.SAL%TYPE) AS
+BEGIN
+    UPDATE EMP SET SAL = p_new_sal WHERE EMPNO = p_empno RETURNING SAL INTO p_new_sal;
+    DBMS_OUTPUT.PUT_LINE('Updated Salary: ' || p_new_sal);
+END;
+/
+
+-- ==========================================
+-- 11. Procedure: Insert new employee
+-- ==========================================
+CREATE OR REPLACE PROCEDURE add_employee(
+    p_empno IN EMP.EMPNO%TYPE,
+    p_ename IN EMP.ENAME%TYPE,
+    p_job IN EMP.JOB%TYPE,
+    p_mgr IN EMP.MGR%TYPE,
+    p_sal IN EMP.SAL%TYPE,
+    p_deptno IN EMP.DEPTNO%TYPE
+) AS
+BEGIN
+    INSERT INTO EMP(EMPNO, ENAME, JOB, MGR, SAL, DEPTNO)
+    VALUES (p_empno, p_ename, p_job, p_mgr, p_sal, p_deptno);
+    COMMIT;
+END;
+/
+
+-- ==========================================
+-- 12. Procedure: Update employee salary
+-- ==========================================
+CREATE OR REPLACE PROCEDURE update_emp_salary(p_empno IN EMP.EMPNO%TYPE, p_sal IN EMP.SAL%TYPE) AS
+BEGIN
+    UPDATE EMP SET SAL = p_sal WHERE EMPNO = p_empno;
+    COMMIT;
+END;
+/
+
+-- ==========================================
+-- 13. Procedure: Delete employee
+-- ==========================================
+CREATE OR REPLACE PROCEDURE delete_employee(p_empno IN EMP.EMPNO%TYPE) AS
+BEGIN
+    DELETE FROM EMP WHERE EMPNO = p_empno;
+    COMMIT;
+END;
+/
+
+-- ==========================================
+-- 14. Procedure: Increase all salaries by 10%
+-- ==========================================
+CREATE OR REPLACE PROCEDURE increase_all_salaries AS
+BEGIN
+    UPDATE EMP SET SAL = SAL * 1.10;
+    COMMIT;
+END;
+/
+
+-- ==========================================
+-- 15. Procedure: Transfer employees between departments
+-- ==========================================
+CREATE OR REPLACE PROCEDURE transfer_employees(p_from_dept IN EMP.DEPTNO%TYPE, p_to_dept IN EMP.DEPTNO%TYPE) AS
+BEGIN
+    UPDATE EMP SET DEPTNO = p_to_dept WHERE DEPTNO = p_from_dept;
+    COMMIT;
+END;
+/
+
+-- ==========================================
+-- 16. Function: Square of a number
+-- ==========================================
+CREATE OR REPLACE FUNCTION get_square(p_num IN NUMBER) RETURN NUMBER AS
+BEGIN
+    RETURN p_num * p_num;
+END;
+/
+
+-- ==========================================
+-- 17. Function: Employee salary by empno
+-- ==========================================
+CREATE OR REPLACE FUNCTION get_emp_salary_fn(p_empno IN EMP.EMPNO%TYPE) RETURN NUMBER AS
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal FROM EMP WHERE EMPNO = p_empno;
+    RETURN v_sal;
+END;
+/
+
+-- ==========================================
+-- 18. Function: Total number of employees
+-- ==========================================
+CREATE OR REPLACE FUNCTION get_total_emps RETURN NUMBER AS
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count FROM EMP;
+    RETURN v_count;
+END;
+/
+
+-- ==========================================
+-- 19. Function: Maximum salary
+-- ==========================================
+CREATE OR REPLACE FUNCTION get_max_salary RETURN NUMBER AS
+    v_max_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT MAX(SAL) INTO v_max_sal FROM EMP;
+    RETURN v_max_sal;
+END;
+/
+
+-- ==========================================
+-- 20. Function: Department name by deptno
+-- ==========================================
+CREATE OR REPLACE FUNCTION get_dept_name(p_deptno IN DEPT.DEPTNO%TYPE) RETURN VARCHAR2 AS
+    v_dname DEPT.DNAME%TYPE;
+BEGIN
+    SELECT DNAME INTO v_dname FROM DEPT WHERE DEPTNO = p_deptno;
+    RETURN v_dname;
+END;
+/
+
+-- ==========================================
+-- 21. Function: Calculate bonus (10% of salary)
+-- ==========================================
+CREATE OR REPLACE FUNCTION calc_bonus(p_sal IN EMP.SAL%TYPE) RETURN NUMBER AS
+BEGIN
+    RETURN p_sal * 0.10;
+END;
+/
+
+-- ==========================================
+-- 22. Function: Return grade based on salary
+-- ==========================================
+CREATE OR REPLACE FUNCTION get_grade(p_sal IN EMP.SAL%TYPE) RETURN VARCHAR2 AS
+BEGIN
+    IF p_sal >= 8000 THEN
+        RETURN 'A';
+    ELSIF p_sal >= 6000 THEN
+        RETURN 'B';
+    ELSIF p_sal >= 4000 THEN
+        RETURN 'C';
+    ELSE
+        RETURN 'Fail';
+    END IF;
+END;
+/
+
+-- ==========================================
+-- 23. Function: Check even or odd
+-- ==========================================
+CREATE OR REPLACE FUNCTION is_even(p_num IN NUMBER) RETURN VARCHAR2 AS
+BEGIN
+    IF MOD(p_num,2) = 0 THEN
+        RETURN 'Even';
+    ELSE
+        RETURN 'Odd';
+    END IF;
+END;
+/
+
+-- ==========================================
+-- 24. Function: Annual salary of employee
+-- ==========================================
+CREATE OR REPLACE FUNCTION annual_salary(p_empno IN EMP.EMPNO%TYPE) RETURN NUMBER AS
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal FROM EMP WHERE EMPNO = p_empno;
+    RETURN v_sal * 12;
+END;
+/
+
+-- ==========================================
+-- 25. Function: Employee experience based on hiredate
+-- ==========================================
+CREATE OR REPLACE FUNCTION emp_experience(p_empno IN EMP.EMPNO%TYPE) RETURN NUMBER AS
+    v_hiredate EMP.HIREDATE%TYPE;
+BEGIN
+    SELECT HIREDATE INTO v_hiredate FROM EMP WHERE EMPNO = p_empno;
+    RETURN TRUNC(MONTHS_BETWEEN(SYSDATE, v_hiredate)/12);
+END;
+/
+
+-- ==========================================
+-- 26. Procedure: Call bonus function
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_bonus(p_empno IN EMP.EMPNO%TYPE) AS
+    v_sal EMP.SAL%TYPE;
+    v_bonus NUMBER;
+BEGIN
+    SELECT SAL INTO v_sal FROM EMP WHERE EMPNO = p_empno;
+    v_bonus := calc_bonus(v_sal);
+    DBMS_OUTPUT.PUT_LINE('Bonus: ' || v_bonus);
+END;
+/
+
+-- ==========================================
+-- 27. Function in SQL query example
+-- ==========================================
+CREATE OR REPLACE FUNCTION get_emp_name_fn(p_empno IN EMP.EMPNO%TYPE) RETURN VARCHAR2 AS
+    v_name EMP.ENAME%TYPE;
+BEGIN
+    SELECT ENAME INTO v_name FROM EMP WHERE EMPNO = p_empno;
+    RETURN v_name;
+END;
+/
+
+-- ==========================================
+-- 28. Procedure using function to update salary
+-- ==========================================
+CREATE OR REPLACE PROCEDURE increase_salary_with_fn(p_empno IN EMP.EMPNO%TYPE) AS
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal FROM EMP WHERE EMPNO = p_empno;
+    v_sal := v_sal + calc_bonus(v_sal);
+    UPDATE EMP SET SAL = v_sal WHERE EMPNO = p_empno;
+    COMMIT;
+END;
+/
+
+-- ==========================================
+-- 29. Procedure using function to get highest salary
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_highest_salary AS
+    v_max_sal NUMBER;
+BEGIN
+    v_max_sal := get_max_salary;
+    DBMS_OUTPUT.PUT_LINE('Highest Salary: ' || v_max_sal);
+END;
+/
+
+-- ==========================================
+-- 30. Procedure: Display top 5 highest paid employees
+-- ==========================================
+CREATE OR REPLACE PROCEDURE show_top5_emps AS
+BEGIN
+    FOR emp_rec IN (SELECT ENAME, SAL FROM EMP ORDER BY SAL DESC FETCH FIRST 5 ROWS ONLY) LOOP
+        DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' - ' || emp_rec.SAL);
+    END LOOP;
+END;
+/
+
+-- ==========================================
+-- 31. Function: Nth highest salary
+-- ==========================================
+CREATE OR REPLACE FUNCTION nth_highest_salary(n IN NUMBER) RETURN NUMBER AS
+    v_sal EMP.SAL%TYPE;
+BEGIN
+    SELECT SAL INTO v_sal FROM (
+        SELECT SAL, DENSE_RANK() OVER (ORDER BY SAL DESC) AS rnk FROM EMP
+    ) WHERE rnk = n;
+    RETURN v_sal;
+END;
+/
+
+-- ==========================================
+-- 32. Procedure: Transaction example
+-- ==========================================
+CREATE OR REPLACE PROCEDURE emp_transaction_example AS
+BEGIN
+    BEGIN
+        UPDATE EMP SET SAL = SAL + 500 WHERE DEPTNO = 10;
+        INSERT INTO EMP(EMPNO, ENAME, JOB, MGR, SAL, DEPTNO) VALUES (9999,'TEST','CLERK',7839,1000,10);
+        COMMIT;
+    EXCEPTION
+        WHEN OTHERS THEN
+            ROLLBACK;
+            DBMS_OUTPUT.PUT_LINE('Transaction rolled back due to error.');
+    END;
+END;
+/
+
+-- ==========================================
+-- 33. Function: Department-wise total salary
+-- ==========================================
+CREATE OR REPLACE FUNCTION dept_total_salary(p_deptno IN DEPT.DEPTNO%TYPE) RETURN NUMBER AS
+    v_total NUMBER;
+BEGIN
+    SELECT SUM(SAL) INTO v_total FROM EMP WHERE DEPTNO = p_deptno;
+    RETURN v_total;
+END;
+/
+</pre>
+</section>
+
+<section id="packages">
+<h2>Packages</h2>
+<pre>
+-- ==========================================
+-- Package: EMPLOYEE_OPERATIONS
+-- Purpose: Demonstrates various PL/SQL package features
+-- ==========================================
+
+-- 1. Package Specification
+CREATE OR REPLACE PACKAGE employee_operations AS
+
+    -- Basic procedure
+    PROCEDURE hello_oracle;
+
+    -- Procedure to display employee details
+    PROCEDURE show_emp(p_empno IN EMP.EMPNO%TYPE);
+
+    -- Function to return square
+    FUNCTION get_square(p_num IN NUMBER) RETURN NUMBER;
+
+    -- Procedure + Function
+    PROCEDURE greet_and_square(p_num IN NUMBER);
+    FUNCTION double_square(p_num IN NUMBER) RETURN NUMBER;
+
+    -- Global variable
+    g_counter NUMBER;
+
+    -- Constant
+    c_company_name CONSTANT VARCHAR2(50) := 'ACME Corporation';
+
+    -- Procedure to insert employee
+    PROCEDURE add_employee(
+        p_empno IN EMP.EMPNO%TYPE,
+        p_ename IN EMP.ENAME%TYPE,
+        p_job IN EMP.JOB%TYPE,
+        p_mgr IN EMP.MGR%TYPE,
+        p_sal IN EMP.SAL%TYPE,
+        p_deptno IN EMP.DEPTNO%TYPE
+    );
+
+    -- Procedure to update salary
+    PROCEDURE update_salary(p_empno IN EMP.EMPNO%TYPE, p_sal IN EMP.SAL%TYPE);
+
+    -- Procedure to delete employee
+    PROCEDURE delete_employee(p_empno IN EMP.EMPNO%TYPE);
+
+    -- Function to get salary
+    FUNCTION get_emp_salary(p_empno IN EMP.EMPNO%TYPE) RETURN NUMBER;
+
+    -- Function to get total employees
+    FUNCTION total_employees RETURN NUMBER;
+
+    -- Function to get max salary
+    FUNCTION max_salary RETURN NUMBER;
+
+    -- Function to calculate bonus
+    FUNCTION calc_bonus(p_sal IN EMP.SAL%TYPE) RETURN NUMBER;
+
+    -- Cursor to display all employees
+    PROCEDURE show_all_emps;
+
+    -- Parameterized cursor: employees by department
+    PROCEDURE show_dept_emps(p_deptno IN EMP.DEPTNO%TYPE);
+
+    -- Cursor FOR LOOP
+    PROCEDURE show_emp_loop;
+
+    -- Overloaded procedures
+    PROCEDURE greet(p_name IN VARCHAR2);
+    PROCEDURE greet(p_name IN VARCHAR2, p_time IN VARCHAR2);
+
+    -- Overloaded functions
+    FUNCTION multiply(p_num1 IN NUMBER, p_num2 IN NUMBER) RETURN NUMBER;
+    FUNCTION multiply(p_num IN NUMBER) RETURN NUMBER;
+
+    -- Procedure for audit log
+    PROCEDURE audit_log(p_action IN VARCHAR2, p_empno IN EMP.EMPNO%TYPE);
+
+    -- Validation procedure
+    PROCEDURE validate_emp(p_empno IN EMP.EMPNO%TYPE, p_sal IN EMP.SAL%TYPE);
+
+    -- Banking operations
+    PROCEDURE deposit(p_accno IN NUMBER, p_amount IN NUMBER);
+    PROCEDURE withdraw(p_accno IN NUMBER, p_amount IN NUMBER);
+    FUNCTION get_balance(p_accno IN NUMBER) RETURN NUMBER;
+
+END employee_operations;
+/
+
+-- ==========================================
+-- Package Body
+-- ==========================================
+CREATE OR REPLACE PACKAGE BODY employee_operations AS
+
+    -- Initialization block
+    BEGIN
+        g_counter := 0;
+        DBMS_OUTPUT.PUT_LINE('Employee Operations Package Initialized');
+    END;
+
+    -- Basic procedure
+    PROCEDURE hello_oracle IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Hello Oracle');
+    END;
+
+    -- Display employee details
+    PROCEDURE show_emp(p_empno IN EMP.EMPNO%TYPE) IS
+        v_emp EMP%ROWTYPE;
+    BEGIN
+        SELECT * INTO v_emp FROM EMP WHERE EMPNO = p_empno;
+        DBMS_OUTPUT.PUT_LINE(v_emp.EMPNO || ' ' || v_emp.ENAME || ' ' || v_emp.SAL);
+        g_counter := g_counter + 1;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('Employee not found');
+    END;
+
+    -- Function to return square
+    FUNCTION get_square(p_num IN NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN p_num * p_num;
+    END;
+
+    -- Procedure + Function
+    PROCEDURE greet_and_square(p_num IN NUMBER) IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Hello! Square of ' || p_num || ' is ' || get_square(p_num));
+    END;
+
+    FUNCTION double_square(p_num IN NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN get_square(p_num) * 2;
+    END;
+
+    -- Insert employee
+    PROCEDURE add_employee(
+        p_empno IN EMP.EMPNO%TYPE,
+        p_ename IN EMP.ENAME%TYPE,
+        p_job IN EMP.JOB%TYPE,
+        p_mgr IN EMP.MGR%TYPE,
+        p_sal IN EMP.SAL%TYPE,
+        p_deptno IN EMP.DEPTNO%TYPE
+    ) IS
+    BEGIN
+        INSERT INTO EMP(EMPNO, ENAME, JOB, MGR, SAL, DEPTNO)
+        VALUES(p_empno, p_ename, p_job, p_mgr, p_sal, p_deptno);
+        COMMIT;
+    END;
+
+    -- Update salary
+    PROCEDURE update_salary(p_empno IN EMP.EMPNO%TYPE, p_sal IN EMP.SAL%TYPE) IS
+    BEGIN
+        UPDATE EMP SET SAL = p_sal WHERE EMPNO = p_empno;
+        COMMIT;
+    END;
+
+    -- Delete employee
+    PROCEDURE delete_employee(p_empno IN EMP.EMPNO%TYPE) IS
+    BEGIN
+        DELETE FROM EMP WHERE EMPNO = p_empno;
+        COMMIT;
+    END;
+
+    -- Get salary
+    FUNCTION get_emp_salary(p_empno IN EMP.EMPNO%TYPE) RETURN NUMBER IS
+        v_sal EMP.SAL%TYPE;
+    BEGIN
+        SELECT SAL INTO v_sal FROM EMP WHERE EMPNO = p_empno;
+        RETURN v_sal;
+    END;
+
+    -- Total employees
+    FUNCTION total_employees RETURN NUMBER IS
+        v_count NUMBER;
+    BEGIN
+        SELECT COUNT(*) INTO v_count FROM EMP;
+        RETURN v_count;
+    END;
+
+    -- Max salary
+    FUNCTION max_salary RETURN NUMBER IS
+        v_max EMP.SAL%TYPE;
+    BEGIN
+        SELECT MAX(SAL) INTO v_max FROM EMP;
+        RETURN v_max;
+    END;
+
+    -- Calculate bonus
+    FUNCTION calc_bonus(p_sal IN EMP.SAL%TYPE) RETURN NUMBER IS
+    BEGIN
+        RETURN p_sal * 0.10;
+    END;
+
+    -- Cursor to display all employees
+    PROCEDURE show_all_emps IS
+    BEGIN
+        FOR emp_rec IN (SELECT ENAME, JOB, SAL FROM EMP) LOOP
+            DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' ' || emp_rec.JOB || ' ' || emp_rec.SAL);
+        END LOOP;
+    END;
+
+    -- Parameterized cursor
+    PROCEDURE show_dept_emps(p_deptno IN EMP.DEPTNO%TYPE) IS
+    BEGIN
+        FOR emp_rec IN (SELECT ENAME, SAL FROM EMP WHERE DEPTNO = p_deptno) LOOP
+            DBMS_OUTPUT.PUT_LINE(emp_rec.ENAME || ' ' || emp_rec.SAL);
+        END LOOP;
+    END;
+
+    -- Cursor FOR LOOP
+    PROCEDURE show_emp_loop IS
+    BEGIN
+        FOR emp_rec IN (SELECT * FROM EMP) LOOP
+            DBMS_OUTPUT.PUT_LINE(emp_rec.EMPNO || ' ' || emp_rec.ENAME);
+        END LOOP;
+    END;
+
+    -- Overloaded procedures
+    PROCEDURE greet(p_name IN VARCHAR2) IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Hello ' || p_name);
+    END;
+
+    PROCEDURE greet(p_name IN VARCHAR2, p_time IN VARCHAR2) IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Good ' || p_time || ', ' || p_name);
+    END;
+
+    -- Overloaded functions
+    FUNCTION multiply(p_num1 IN NUMBER, p_num2 IN NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN p_num1 * p_num2;
+    END;
+
+    FUNCTION multiply(p_num IN NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN p_num * p_num;
+    END;
+
+    -- Audit log
+    PROCEDURE audit_log(p_action IN VARCHAR2, p_empno IN EMP.EMPNO%TYPE) IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Audit: ' || p_action || ' on EMPNO: ' || p_empno);
+    END;
+
+    -- Validation procedure
+    PROCEDURE validate_emp(p_empno IN EMP.EMPNO%TYPE, p_sal IN EMP.SAL%TYPE) IS
+    BEGIN
+        IF p_sal < 0 THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Salary cannot be negative');
+        END IF;
+    END;
+
+    -- Banking operations
+    PROCEDURE deposit(p_accno IN NUMBER, p_amount IN NUMBER) IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Deposited ' || p_amount || ' to account ' || p_accno);
+    END;
+
+    PROCEDURE withdraw(p_accno IN NUMBER, p_amount IN NUMBER) IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Withdrew ' || p_amount || ' from account ' || p_accno);
+    END;
+
+    FUNCTION get_balance(p_accno IN NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN 1000; -- Placeholder
+    END;
+
+END employee_operations;
+/
+</pre>
+</section>
+
+<section id="exceptions">
+<h2>Exception Handling</h2>
+<pre>
+DECLARE
+    -- Variables
+    v_empno EMP.EMPNO%TYPE := 9999; -- Use a non-existing EMPNO for NO_DATA_FOUND
+    v_sal EMP.SAL%TYPE := 1500;     -- Example salary for validation
+    v_age NUMBER := 16;              -- Example age for validation
+    v_deptno NUMBER := 99;           -- Invalid department number
+    v_result NUMBER;
+    v_err_msg VARCHAR2(200);
+    
+    -- User-defined exceptions
+    e_salary_low EXCEPTION;
+    e_age_invalid EXCEPTION;
+    e_dept_invalid EXCEPTION;
+    e_salary_high EXCEPTION;
+
+BEGIN
+    -- 1. NO_DATA_FOUND
+    BEGIN
+        SELECT SAL INTO v_result FROM EMP WHERE EMPNO = v_empno;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('No employee found with EMPNO ' || v_empno);
+    END;
+
+    -- 2. TOO_MANY_ROWS
+    BEGIN
+        SELECT SAL INTO v_result FROM EMP; -- Assume multiple rows exist
+    EXCEPTION
+        WHEN TOO_MANY_ROWS THEN
+            DBMS_OUTPUT.PUT_LINE('Error: Too many rows returned');
+    END;
+
+    -- 3. ZERO_DIVIDE
+    BEGIN
+        v_result := 10 / 0;
+    EXCEPTION
+        WHEN ZERO_DIVIDE THEN
+            DBMS_OUTPUT.PUT_LINE('Error: Division by zero');
+    END;
+
+    -- 4. VALUE_ERROR
+    BEGIN
+        v_result := TO_NUMBER('ABC');
+    EXCEPTION
+        WHEN VALUE_ERROR THEN
+            DBMS_OUTPUT.PUT_LINE('Error: Value conversion issue');
+    END;
+
+    -- 5. WHEN OTHERS
+    BEGIN
+        v_result := 10 / NULL;
+    EXCEPTION
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Generic error occurred: ' || SQLERRM);
+    END;
+
+    -- 6 & 7. SQLCODE & SQLERRM
+    BEGIN
+        v_result := 10 / 0;
+    EXCEPTION
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Error Code: ' || SQLCODE || ', Message: ' || SQLERRM);
+    END;
+
+    -- 8. Logging exception
+    BEGIN
+        v_result := 10 / 0;
+    EXCEPTION
+        WHEN OTHERS THEN
+            v_err_msg := SQLERRM;
+            DBMS_OUTPUT.PUT_LINE('Logged error: ' || v_err_msg);
+    END;
+
+    -- 9. RAISE_APPLICATION_ERROR for salary
+    IF v_sal < 2000 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Salary cannot be less than 2000');
+    END IF;
+
+    -- 10. Validate age
+    IF v_age < 18 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Employee age must be at least 18');
+    END IF;
+
+    -- 11. Restrict update
+    IF v_sal < 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Cannot update salary to negative value');
+    END IF;
+
+    -- 12. Invalid dept number
+    IF v_deptno NOT IN (10,20,30) THEN
+        RAISE_APPLICATION_ERROR(-20004, 'Invalid department number');
+    END IF;
+
+    -- 13. User-defined exception
+    IF v_sal < 1000 THEN
+        RAISE e_salary_low;
+    END IF;
+
+    -- 14. Salary exceeds limit
+    IF v_sal > 10000 THEN
+        RAISE e_salary_high;
+    END IF;
+
+    -- 15. Input validation
+    IF v_age < 18 THEN
+        RAISE e_age_invalid;
+    END IF;
+
+    -- 16. Multiple user-defined exceptions
+    BEGIN
+        IF v_sal < 1000 THEN
+            RAISE e_salary_low;
+        ELSIF v_age < 18 THEN
+            RAISE e_age_invalid;
+        END IF;
+    EXCEPTION
+        WHEN e_salary_low THEN
+            DBMS_OUTPUT.PUT_LINE('Salary too low');
+        WHEN e_age_invalid THEN
+            DBMS_OUTPUT.PUT_LINE('Age not valid');
+    END;
+
+    -- 17 & 18. Re-raise exception
+    BEGIN
+        BEGIN
+            v_result := 10 / 0;
+        EXCEPTION
+            WHEN ZERO_DIVIDE THEN
+                DBMS_OUTPUT.PUT_LINE('Inner block handled division by zero');
+                RAISE; -- Re-raise to outer block
+        END;
+    EXCEPTION
+        WHEN ZERO_DIVIDE THEN
+            DBMS_OUTPUT.PUT_LINE('Outer block caught re-raised exception');
+    END;
+
+    -- 19. Log and re-raise
+    BEGIN
+        BEGIN
+            v_result := 10 / 0;
+        EXCEPTION
+            WHEN ZERO_DIVIDE THEN
+                DBMS_OUTPUT.PUT_LINE('Logging division by zero error');
+                RAISE;
+        END;
+    EXCEPTION
+        WHEN ZERO_DIVIDE THEN
+            DBMS_OUTPUT.PUT_LINE('Caught in outer block after logging');
+    END;
+
+    -- 20. Combined exception handling while fetching employee
+    BEGIN
+        SELECT SAL INTO v_result FROM EMP WHERE EMPNO = v_empno;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('Employee not found');
+        WHEN TOO_MANY_ROWS THEN
+            DBMS_OUTPUT.PUT_LINE('Multiple employees found with same EMPNO');
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Other error: ' || SQLERRM);
+    END;
+
+    -- 21. User-defined + RAISE_APPLICATION_ERROR
+    IF v_sal < 2000 THEN
+        RAISE_APPLICATION_ERROR(-20005, 'Custom Error: Salary too low');
+    END IF;
+
+    -- 22. Validate salary
+    IF v_sal < 0 THEN
+        RAISE_APPLICATION_ERROR(-20006, 'Salary cannot be negative');
+    END IF;
+
+    -- 23. Division with SQLCODE & SQLERRM
+    BEGIN
+        v_result := 10 / 0;
+    EXCEPTION
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM || ', Code: ' || SQLCODE);
+    END;
+
+    -- 24. Simulate bank withdrawal
+    DECLARE
+        v_balance NUMBER := 500;
+        v_withdraw NUMBER := 600;
+    BEGIN
+        IF v_withdraw > v_balance THEN
+            RAISE_APPLICATION_ERROR(-20007, 'Insufficient balance');
+        ELSE
+            v_balance := v_balance - v_withdraw;
+            DBMS_OUTPUT.PUT_LINE('Withdrawal successful. New balance: ' || v_balance);
+        END IF;
+    EXCEPTION
+        WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Bank Error: ' || SQLERRM);
+    END;
+
+    -- 25. Multiple validations
+    BEGIN
+        IF v_sal < 1000 THEN
+            RAISE e_salary_low;
+        ELSIF v_age < 18 THEN
+            RAISE e_age_invalid;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('All validations passed');
+        END IF;
+    EXCEPTION
+        WHEN e_salary_low THEN
+            DBMS_OUTPUT.PUT_LINE('Salary too low');
+        WHEN e_age_invalid THEN
+            DBMS_OUTPUT.PUT_LINE('Age not valid');
+    END;
+
+    -- 26. Log errors into variable
+    BEGIN
+        v_result := 10 / 0;
+    EXCEPTION
+        WHEN OTHERS THEN
+            v_err_msg := SQLERRM;
+            DBMS_OUTPUT.PUT_LINE('Error logged: ' || v_err_msg);
+    END;
+
+    -- 27. Nested exception blocks with re-raise
+    BEGIN
+        BEGIN
+            v_result := 10 / 0;
+        EXCEPTION
+            WHEN ZERO_DIVIDE THEN
+                DBMS_OUTPUT.PUT_LINE('Inner block caught division by zero');
+                RAISE;
+        END;
+    EXCEPTION
+        WHEN ZERO_DIVIDE THEN
+            DBMS_OUTPUT.PUT_LINE('Outer block re-raised caught');
+    END;
+
+END;
+/
+</pre>
+</section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
